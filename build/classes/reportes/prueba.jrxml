@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prueba" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Conexion_Marcas"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#EEEFF0"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#CACED0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#D8D8D8"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="param" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT colegiobd.concepto.idconcepto,
+	colegiobd.concepto.concepto,
+	colegiobd.concepto.monto,
+	colegiobd.detalle.iddetalle,
+	colegiobd.detalle.idcomprobantes,
+	colegiobd.detalle.idconceptos,
+	colegiobd.concepto.idconcepto,
+	colegiobd.concepto.monto,
+	colegiobd.concepto.concepto,
+	colegiobd.comprobante.idcomprobante,
+	colegiobd.comprobante.codigo,
+	colegiobd.comprobante.fecha,
+	colegiobd.comprobante.monto,
+	colegiobd.comprobante.idpersona,
+	colegiobd.persona.idpersona,
+	colegiobd.persona.nombre,
+	colegiobd.persona.apellido,
+	colegiobd.persona.dni,
+	colegiobd.persona.direccion,
+	colegiobd.persona.telefono
+FROM colegiobd.detalle
+	INNER JOIN colegiobd.concepto ON 
+	 colegiobd.detalle.idconceptos = colegiobd.concepto.idconcepto 
+	INNER JOIN colegiobd.comprobante ON 
+	 colegiobd.detalle.idcomprobantes = colegiobd.comprobante.idcomprobante 
+	INNER JOIN colegiobd.persona ON 
+	 colegiobd.comprobante.idpersona = colegiobd.persona.idpersona WHERE 	 colegiobd.detalle.idcomprobantes = $P{param}]]>
+	</queryString>
+	<field name="idconcepto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idconcepto"/>
+		<property name="com.jaspersoft.studio.field.label" value="idconcepto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="concepto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="concepto"/>
+		<property name="com.jaspersoft.studio.field.label" value="concepto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monto" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="iddetalle" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="iddetalle"/>
+		<property name="com.jaspersoft.studio.field.label" value="iddetalle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idcomprobantes" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idcomprobantes"/>
+		<property name="com.jaspersoft.studio.field.label" value="idcomprobantes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idconceptos" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idconceptos"/>
+		<property name="com.jaspersoft.studio.field.label" value="idconceptos"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="detalle"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_7" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idconcepto"/>
+		<property name="com.jaspersoft.studio.field.label" value="idconcepto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+	</field>
+	<field name="COLUMN_8" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+	</field>
+	<field name="COLUMN_9" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="concepto"/>
+		<property name="com.jaspersoft.studio.field.label" value="concepto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="concepto"/>
+	</field>
+	<field name="idcomprobante" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idcomprobante"/>
+		<property name="com.jaspersoft.studio.field.label" value="idcomprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comprobante"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comprobante"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comprobante"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_13" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="monto"/>
+		<property name="com.jaspersoft.studio.field.label" value="monto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comprobante"/>
+	</field>
+	<field name="idpersona" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idpersona"/>
+		<property name="com.jaspersoft.studio.field.label" value="idpersona"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="comprobante"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_15" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idpersona"/>
+		<property name="com.jaspersoft.studio.field.label" value="idpersona"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="apellido"/>
+		<property name="com.jaspersoft.studio.field.label" value="apellido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dni" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="dni"/>
+		<property name="com.jaspersoft.studio.field.label" value="dni"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="persona"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="cantidad" class="java.lang.Integer" calculation="Count"/>
+	<group name="Gruppo1">
+		<groupExpression><![CDATA[$F{concepto}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="20" width="556" height="20" forecolor="#000000" uuid="7704da8a-15f5-49a1-9c4c-5fa682bd4652"/>
+					<textElement>
+						<font fontName="Arial" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression>
+				</textField>
+				<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+					<reportElement style="Detail" positionType="Float" x="476" y="20" width="80" height="20" uuid="bdcaf050-4350-45e4-881f-84bf22646568">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="017dff40-4216-48d4-a098-19d314140e0d"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Arial" size="12" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{monto}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="218" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="110" width="84" height="25" uuid="57aed2b1-4f4e-40a3-a6ad-54dae8dd4c5a">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="80" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="410" y="10" width="50" height="20" uuid="0f86baff-6386-4f3f-b3fe-2388707babe8"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="465" y="10" width="84" height="20" uuid="bb10dbe1-0a4f-4722-9953-c163b63cf979"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="410" y="30" width="50" height="20" uuid="0b3f9342-da78-4cfa-9fc5-2301c4749678"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Cod:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="0" width="295" height="25" uuid="e622555d-198b-4ccd-a4a1-c59c53304058">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Colegio "Gabino Uribe Antúnez"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="55" width="205" height="15" uuid="b8cc42fd-b569-497d-834d-7e854040ad18"/>
+				<text><![CDATA[043-458265]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="25" width="205" height="15" uuid="c226e44d-3bb5-4145-b0b3-903bf1d79fde"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Av. La juventud]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="95" y="40" width="205" height="15" uuid="b96f7183-44f8-43ad-ba60-43d8fbf50b6e"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Aija, ]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="74" y="115" width="73" height="20" uuid="6a0910ec-377d-4e5c-9e7d-00985ad7ea56">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c414e279-ab27-4eeb-9f5f-ad73383ca94b"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="143" y="115" width="95" height="20" uuid="944fb04d-f9d1-42de-9a19-5543acdffeb7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="975afcc1-1a41-463f-920b-e320dbe23449"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="74" y="180" width="102" height="20" uuid="2f302bad-8e93-4068-97f2-6dac0a2c3640">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b11607f2-47f3-43a7-8faf-c395550ecf7c"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="74" y="160" width="145" height="20" uuid="c936f5d6-9232-4d62-82b4-e7f7aca2445e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3dce9ea3-750d-4daa-a897-2e54be1293fa"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="74" y="140" width="76" height="20" uuid="65a2fdf2-8224-494b-a244-148669a17172">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fede8f85-7e2b-4af1-a35a-dff22076550a"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dni}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="465" y="30" width="90" height="20" uuid="b59be05c-eb36-4d87-9298-34c4421f90d8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="13e20831-3587-437b-a111-b096a8fbd084"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="10" y="0" width="70" height="70" uuid="375b6535-091b-4311-9174-06e05f252e3a"/>
+				<imageExpression><![CDATA["inseig.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="240" y="80" width="110" height="30" uuid="3949bb16-bcbc-4399-af1d-c6f64cc7fbd5"/>
+				<textElement textAlignment="Center">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="140" width="50" height="20" uuid="26a01ac2-e0dc-4c10-8c25-2ad5a9ca71df"/>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="160" width="50" height="20" uuid="6fab97d8-3b9d-454c-b126-094c9c359e55"/>
+				<text><![CDATA[Dirección:
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="180" width="50" height="20" uuid="fa570787-d489-4389-9efe-01c13446af31"/>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="43">
+			<staticText>
+				<reportElement x="0" y="8" width="146" height="30" uuid="e20b7802-b7c6-46f0-85f6-41b05dfce182"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONCEPTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="462" y="13" width="90" height="30" uuid="be293d5a-76df-4362-be1c-bcd28ee1c9a1"/>
+				<textElement>
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRECIO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="48"/>
+	</detail>
+	<lastPageFooter>
+		<band height="177">
+			<staticText>
+				<reportElement positionType="Float" x="-1" y="30" width="261" height="101" uuid="1a0d7088-5af7-4865-8be1-41ec5f51fb36"/>
+				<box>
+					<topPen lineWidth="1.1" lineStyle="Dashed"/>
+					<leftPen lineWidth="1.1" lineStyle="Dashed"/>
+					<bottomPen lineWidth="1.1" lineStyle="Dashed"/>
+					<rightPen lineWidth="1.1" lineStyle="Dashed"/>
+				</box>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA["No hay devolucion, revise bien su dinero antes y despues de pagar"]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="147" width="556" height="30" backcolor="#E6E8E9" uuid="36aa233d-4305-48e6-974a-1bbf89bb3c8f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="9" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Que tenga un buen dia]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="440" y="40" width="90" height="20" uuid="ba208543-5bd9-4eaa-97e5-53ec0afc58ea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a5367776-062d-4c55-8f2a-dd4bd83c4342"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="40" width="60" height="30" uuid="4152fbc7-925d-41cb-aec7-7509e414dbf7"/>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>
