@@ -5,9 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.function.Supplier;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 
@@ -45,6 +43,15 @@ public class Articulo {
     public Articulo(){
         
     }
+    
+    public Articulo(String nombre, String descripcion,int idArea, int idEstado, int idCategoria){
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.idArea = idArea;
+        this.idEstado = idEstado;
+        this.idCategoria = idCategoria;
+        
+    }
 
     public static ArrayList mapear() {
         ArrayList<Articulo> articulos = new ArrayList<>();
@@ -71,6 +78,28 @@ public class Articulo {
         }
         return articulos;
 
+    }
+    
+    public boolean agregarArticulo(){
+        boolean b = false;
+        String query = "INSERT INTO articulo VALUES( null,?, ?, CURDATE(), ?, ?, ?)";
+        try {
+            PreparedStatement st = Conexion.conec.prepareStatement(query);
+            st.setString(1, this.nombre);
+            st.setString(2, this.descripcion);
+            st.setInt(3, this.idArea);
+            st.setInt(4, this.idEstado);
+            st.setInt(5, this.idCategoria);       
+           if(st.executeUpdate()== 1){
+               b = true;
+           }
+                
+        } catch (SQLException ex) {
+            Logger.getLogger(Articulo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+       return b; 
     }
 
     public int getIdArticulo() {
