@@ -27,7 +27,7 @@ public class Pagos extends javax.swing.JFrame {
     
     public Pagos() {
         initComponents();
-        this.getContentPane().setBackground(new Color(255, 255, 255));
+        this.getContentPane().setBackground(new Color(0, 99, 174));
         this.setLocationRelativeTo(null);
         this.labDatos.setBackground(new Color(0, 99, 174));
         this.labMonto.setBackground(new Color(0, 99, 174));
@@ -167,7 +167,6 @@ public class Pagos extends javax.swing.JFrame {
         txtDir = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtDni = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         txtTel = new javax.swing.JTextField();
         dniLab = new javax.swing.JLabel();
         labPagos = new javax.swing.JPanel();
@@ -235,8 +234,6 @@ public class Pagos extends javax.swing.JFrame {
             }
         });
 
-        btnBuscar.setText("Buscar");
-
         txtTel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
         dniLab.setFont(new java.awt.Font("Raleway", 1, 14)); // NOI18N
@@ -258,27 +255,23 @@ public class Pagos extends javax.swing.JFrame {
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dniLab)
                     .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtDir)
+                        .addComponent(txtDir, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
                         .addComponent(txtApellido)
                         .addComponent(txtNombre)
-                        .addGroup(labDatosLayout.createSequentialGroup()
-                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
-                        .addComponent(txtTel, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(txtTel, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(txtDni)))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         labDatosLayout.setVerticalGroup(
             labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, labDatosLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(24, 24, 24)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(dniLab)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -461,7 +454,7 @@ public class Pagos extends javax.swing.JFrame {
                             .addComponent(labMonto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                                 .addComponent(labPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(32, 32, 32))))
         );
@@ -556,7 +549,6 @@ public class Pagos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JList<String> concepSel;

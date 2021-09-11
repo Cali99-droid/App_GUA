@@ -3,6 +3,7 @@ package ventana;
 import Clases.Exporter;
 import controlador.Articulo;
 import controlador.Controlador;
+import controlador.Inventario;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -21,16 +22,17 @@ import javax.swing.table.TableRowSorter;
  *
  * @author CARLOS ORELLANO
  */
-public class Inventario extends javax.swing.JFrame {
+public class InventarioFrame extends javax.swing.JFrame {
 
     ArrayList<Articulo> articulos = Articulo.mapear();
+    ArrayList<Inventario> inventarios = Inventario.all();
     Controlador cont = new Controlador();
     private TableRowSorter trsfiltro;
     String filtro;
 
     DefaultTableModel modelo = new DefaultTableModel();
 
-    public Inventario() {
+    public InventarioFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
 
@@ -50,6 +52,7 @@ public class Inventario extends javax.swing.JFrame {
         cont.LlenarCombo(categoria_c, "SELECT * FROM categoria", 2);
         cont.LlenarCombo(estado_c, "SELECT * FROM estado", 2);
         cont.LlenarCombo(area_c, "SELECT * FROM area", 2);
+        llenar_combo_inv();
 
         //inicializar botones
         deshacer.setVisible(false);
@@ -58,8 +61,8 @@ public class Inventario extends javax.swing.JFrame {
 //        actualizar.setEnabled(false);
 //        delete.setEnabled(false);
         //crear columnas de modelo
-        modelo.setColumnIdentifiers(new String[]{"ID", "Nombre", "Descripcion", "Area", "Estado", "Categoria"});
-
+        modelo.setColumnIdentifiers(new String[]{"ID", "Nombre", "Descripcion", "Area", "Estado", "Categoria"});       
+         
         //agregar oyente para el textfield buscar
         buscar.addKeyListener(new KeyAdapter() {
             @Override
@@ -73,6 +76,17 @@ public class Inventario extends javax.swing.JFrame {
 
         //listar articulos en la tabla articulos
         listarArticulos();
+    }
+    
+    public void llenar_combo_inv(){
+        this.c_inventarios.removeAllItems();
+        
+        for (int i = 0; i < inventarios.size(); i++) {
+            this.c_inventarios.addItem(inventarios.get(i).getNombre());
+        }
+        
+        c_inventarios.setSelectedIndex(-1);
+        
     }
 
     public void listarArticulos() {
@@ -186,22 +200,24 @@ public class Inventario extends javax.swing.JFrame {
         return art;
     }
     
-//falta confirmar
+//falta confirmar -- 
     public void insertar_articulo() {
         Articulo art = new Articulo(nombre.getText(), descripcion.getText(),
                 area_c.getSelectedIndex() + 1,
                 estado_c.getSelectedIndex() + 1,
                 categoria_c.getSelectedIndex() + 1);
         if (art.agregarArticulo()) {
-            JOptionPane.showMessageDialog(null, "agregado con exito !!");
+            JOptionPane.showMessageDialog(null, "Agregado con éxito !!");
             articulos = Articulo.mapear();
             listarArticulos();
 
         } else {
-            JOptionPane.showMessageDialog(null, "Error a insertar");
+            JOptionPane.showMessageDialog(null, "Error al insertar");
         }
 
     }
+    
+    
 
     public void limpiar() {
         nombre.setText("");
@@ -212,6 +228,30 @@ public class Inventario extends javax.swing.JFrame {
         buscar.setText("");
     }
 
+    public Inventario nuevoInventario(){
+        
+        Inventario inve = new Inventario();
+        
+        String nombre = JOptionPane.showInputDialog("Ingrese el Nombre del Inventario: " + LocalDate.now());
+        inve.setNombre(nombre);
+        inve.setFecha_inicio(LocalDate.now().toString());
+        nombreInventario.setText(nombre.toUpperCase() + " - " + LocalDate.now().getYear());
+        titulo.setText("MODO INVENTARIO");
+        this.getContentPane().setBackground(new Color(179, 236, 245));
+        titulo.setForeground(Color.BLUE);
+        deshacer.setVisible(true);
+        confirmar.setVisible(true);
+        return inve;
+    }
+    
+
+    public void confirmarInventario(){
+       // String nombre = JOptionPane.showInputDialog("Ingrese el Nombre del Inventario: " + LocalDate.now());
+        Inventario inve = nuevoInventario();
+        inve.setFecha_fin(LocalDate.now().toString());
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,18 +285,21 @@ public class Inventario extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         inventario = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        c_inventarios = new javax.swing.JComboBox<>();
         confirmar = new javax.swing.JButton();
         deshacer = new javax.swing.JButton();
         nombreInventario = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        ta_obser = new javax.swing.JTextArea();
         ex = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         titulo.setFont(new java.awt.Font("Raleway", 1, 32)); // NOI18N
-        titulo.setText("INVENTARIO");
-        getContentPane().add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 350, -1));
+        titulo.setText("Registro de Artículos e Inventarios");
+        getContentPane().add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 600, -1));
 
         jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -283,7 +326,7 @@ public class Inventario extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(t_articulos);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 414, 1244, 179));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 1244, 179));
 
         datosArticulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(102, 102, 102), new java.awt.Color(204, 255, 255), null));
 
@@ -350,7 +393,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(datosArticuloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(datosArticuloLayout.createSequentialGroup()
-                        .addGap(0, 49, Short.MAX_VALUE)
+                        .addGap(0, 50, Short.MAX_VALUE)
                         .addComponent(agregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(actualizar)
@@ -394,29 +437,29 @@ public class Inventario extends javax.swing.JFrame {
                             .addComponent(actualizar)
                             .addComponent(delete)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
-        getContentPane().add(datosArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+        getContentPane().add(datosArticulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 690, 260));
 
         buscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 buscarKeyTyped(evt);
             }
         });
-        getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 380, 444, -1));
+        getContentPane().add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 400, 444, -1));
 
         cb_filro.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
         cb_filro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Descripcion", "Area", "Estado", "Categoria" }));
-        getContentPane().add(cb_filro, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 120, -1));
+        getContentPane().add(cb_filro, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 400, 120, -1));
 
         jLabel1.setFont(new java.awt.Font("Raleway", 1, 14)); // NOI18N
         jLabel1.setText("Buscar por:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 400, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Raleway", 1, 18)); // NOI18N
         jLabel7.setText("Datos ");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(153, 255, 153), null));
 
@@ -428,8 +471,6 @@ public class Inventario extends javax.swing.JFrame {
                 inventarioActionPerformed(evt);
             }
         });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         confirmar.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
         confirmar.setForeground(new java.awt.Color(255, 255, 255));
@@ -451,42 +492,58 @@ public class Inventario extends javax.swing.JFrame {
 
         nombreInventario.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
 
+        jButton1.setText("Editar Nombre");
+
+        ta_obser.setColumns(20);
+        ta_obser.setRows(5);
+        jScrollPane3.setViewportView(ta_obser);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nombreInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(deshacer, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(inventario, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(deshacer, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(confirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(16, 16, 16))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(c_inventarios, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(inventario, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(inventario))
+                    .addComponent(c_inventarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(inventario)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(nombreInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmar)
                     .addComponent(deshacer))
                 .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 110, 410, 220));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 110, 520, 260));
 
         ex.setText("Exportar");
         ex.addActionListener(new java.awt.event.ActionListener() {
@@ -494,19 +551,13 @@ public class Inventario extends javax.swing.JFrame {
                 exActionPerformed(evt);
             }
         });
-        getContentPane().add(ex, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 370, -1, -1));
+        getContentPane().add(ex, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 390, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void inventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioActionPerformed
-        String nombre = JOptionPane.showInputDialog("Ingrese el Nombre del Inventario: " + LocalDate.now());
-        nombreInventario.setText(nombre.toUpperCase() + " - " + LocalDate.now().getYear());
-        titulo.setText("MODO INVENTARIO");
-        this.getContentPane().setBackground(new Color(179, 236, 245));
-        titulo.setForeground(Color.BLUE);
-        deshacer.setVisible(true);
-        confirmar.setVisible(true);
+       nuevoInventario();
 
     }//GEN-LAST:event_inventarioActionPerformed
 
@@ -585,20 +636,21 @@ public class Inventario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventarioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventarioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventarioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inventario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(InventarioFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inventario().setVisible(true);
+                new InventarioFrame().setVisible(true);
             }
         });
     }
@@ -608,6 +660,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton agregar;
     private javax.swing.JComboBox<String> area_c;
     private javax.swing.JTextField buscar;
+    private javax.swing.JComboBox<String> c_inventarios;
     private javax.swing.JComboBox<String> categoria_c;
     private javax.swing.JComboBox<String> cb_filro;
     private javax.swing.JButton confirmar;
@@ -618,7 +671,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> estado_c;
     private javax.swing.JButton ex;
     private javax.swing.JButton inventario;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -629,9 +682,11 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel nombreInventario;
     private javax.swing.JTable t_articulos;
+    private javax.swing.JTextArea ta_obser;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }
