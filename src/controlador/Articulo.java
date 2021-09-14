@@ -13,13 +13,14 @@ import java.util.logging.Logger;
  * @author CARLOS ORELLANO
  */
 public class Articulo {
-    private static final Logger LOG = Logger.getLogger(Articulo.class.getName());
+    private int idinventario;
     int idArticulo;
     String nombre;
     String descripcion;
     String area;
     String estado;
     String categoria;
+   
 
    //ids
     int idArea;
@@ -41,6 +42,20 @@ public class Articulo {
     
     public Articulo(){
         
+    }
+
+    public Articulo(int idArticulo, String nombre, String descripcion, String area, String estado, String categoria, int idCategoria,int idinventario) {
+       
+        this.idArticulo = idArticulo;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.area = area;
+        this.estado = estado;
+        this.categoria = categoria;
+        this.idArea = idArea;
+        this.idEstado = idEstado;
+        this.idCategoria = idCategoria;
+        this.idinventario = idinventario;
     }
     
     public Articulo(String nombre, String descripcion,int idArea, int idEstado, int idCategoria){
@@ -171,6 +186,14 @@ public class Articulo {
 
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public int getIdinventario() {
+        return idinventario;
+    }
+
+    public void setIdinventario(int idinventario) {
+        this.idinventario = idinventario;
     }
     
 

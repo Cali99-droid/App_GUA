@@ -29,6 +29,7 @@ public class Pagos extends javax.swing.JFrame {
         initComponents();
         this.getContentPane().setBackground(new Color(0, 99, 174));
         this.setLocationRelativeTo(null);
+         this.setExtendedState(MAXIMIZED_BOTH);
         this.labDatos.setBackground(new Color(0, 99, 174));
         this.labMonto.setBackground(new Color(0, 99, 174));
         this.labPagos.setBackground(new Color(0, 99, 174));
@@ -107,9 +108,7 @@ public class Pagos extends javax.swing.JFrame {
        dniLab.setText(datos.get("dni"));
        //txtDni.setText(datos.get("dni"));       
    }
-    
-    
-    
+       
     public void agregarPago(){
         String query ;
         query = "CALL INSERT_COMPRO('"+txtNombre.getText()+"', '"+txtApellido.getText()+"',"
