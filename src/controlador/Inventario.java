@@ -55,6 +55,25 @@ public class Inventario {
         }
         return inventarios;
     }
+    
+    public static boolean validarCantidad(){
+        boolean b = true;
+        String query = "SELECT count(*) FROM colegiobd.inventario where YEAR(fecha_inicio) = 2020";
+        try {
+            Base.st = Base.conec.createStatement();
+            Base.rt = Base.st.executeQuery(query);
+            while (Base.rt.next()) {
+               int cant = Integer.parseInt(Base.rt.getString(1));
+               if(cant >= 2){
+                   b=false;
+               }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return b;
+    }
 
     public boolean agregarInventario() {
         boolean b = false;
@@ -75,6 +94,8 @@ public class Inventario {
         }
         return b;
     }
+    
+    
 
     public void asignarId() {
         agregarInventario();

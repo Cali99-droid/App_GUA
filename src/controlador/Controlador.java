@@ -1,5 +1,6 @@
 package controlador;
 
+import java.awt.Color;
 import javax.swing.*;
 import java.sql.*;
 import java.util.HashMap;
@@ -15,15 +16,46 @@ public class Controlador {
 
     public void LlenarCombo(JComboBox cbo, String Consulta, int pos) {
         cbo.removeAllItems();
+        cbo.addItem("--Seleccione--");
         try {
             Base.rt = DevolverRegistro(Consulta);
+            
             while (Base.rt.next()) {
                 cbo.addItem(Base.rt.getString(pos).toUpperCase());
             }
-            cbo.setSelectedIndex(-1);
+            //cbo.setSelectedIndex(-1);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void darEstiloBoton(JButton btn, ImageIcon icon, Color col) {
+        btn.setBackground(col);
+        btn.setIcon(icon);
+        btn.setIconTextGap(1);
+        btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+//        this.btnUser.setOpaque(false);
+//        this.btnUser.setFocusPainted(false);
+//        this.btnUser.setBorderPainted(false);
+//        this.btnUser.setContentAreaFilled(false);
+    }
+    
+     public static void darEstiloBotonBack(JButton btn, ImageIcon icon) {
+       
+        btn.setIcon(icon);
+        btn.setIconTextGap(1);
+        btn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+//        btn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+//        btn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        btn.setOpaque(false);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
     }
 
     public void LlenarLista(DefaultListModel list, String Consulta, int pos) {

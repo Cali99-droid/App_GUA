@@ -5,9 +5,10 @@
  */
 package ventana;
 
+import controlador.Controlador;
 import java.awt.Color;
 import javax.swing.ImageIcon;
-
+import javax.swing.JButton;
 
 /**
  *
@@ -15,9 +16,11 @@ import javax.swing.ImageIcon;
  */
 public class Principal extends javax.swing.JFrame {
 
-    ImageIcon iconPagos = new ImageIcon("src/src/icos/dollar.gif");
-    ImageIcon iconInven = new ImageIcon("src/src/icos/product.gif");
-    ImageIcon iconRep = new ImageIcon("src/src/icos/rep.gif");
+    ImageIcon iconPagos = new ImageIcon("src/src/icos/mon.png");
+    ImageIcon iconInven = new ImageIcon("src/src/icos/inven.png");
+    ImageIcon iconRep = new ImageIcon("src/src/icos/doc.png");
+    ImageIcon iconUser = new ImageIcon("src/src/icos/user.png");
+    ImageIcon iconConfig = new ImageIcon("src/src/icos/config.png");
 
     /**
      * Creates new form Principal
@@ -28,42 +31,14 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
         this.getContentPane().setBackground(new Color(255, 255, 255));
         this.prinPan.setBackground(new Color(255, 255, 255));
-        // this.prinPan.setBackground(new Color(0, 130, 210));
-        this.btnPagos.setBackground(new Color(0, 138, 93));
-        // this.btnInven.setBackground(new Color(136, 83, 0));
-        this.btnInven.setBackground(new Color(0, 130, 210));
-        this.btnReport.setBackground(new Color(60, 72, 86));
-        this.labTitulo.setBackground(new Color(0, 99, 174));
-        
-        
-        this.btnPagos.setOpaque(false);
-        this.btnPagos.setFocusPainted(false);
-        this.btnPagos.setBorderPainted(false);
-        this.btnPagos.setContentAreaFilled(false);
-        this.btnPagos.setIcon(iconPagos);
-        this.btnPagos.setIconTextGap(1);
-        this.btnPagos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        this.btnPagos.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-//        this.btnPagos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-//        this.btnPagos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        this.btnInven.setOpaque(false);
-        this.btnInven.setFocusPainted(false);
-        this.btnInven.setBorderPainted(false);
-        this.btnInven.setContentAreaFilled(false);
-        this.btnInven.setIcon(iconInven);
-        this.btnInven.setIconTextGap(1);
-        this.btnInven.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        this.btnInven.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
-        
-        this.btnReport.setOpaque(false);
-        this.btnReport.setFocusPainted(false);
-        this.btnReport.setBorderPainted(false);
-        this.btnReport.setContentAreaFilled(false);
-        this.btnReport.setIcon(iconRep);
-        this.btnReport.setIconTextGap(1);
-        this.btnReport.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        this.btnReport.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
+        this.labTitulo.setBackground(new Color(0, 99, 174));
+
+        Controlador.darEstiloBoton(this.btnConfig, iconConfig, new Color(163, 214, 255));
+        Controlador.darEstiloBoton(this.btnUser, iconUser, new Color(163, 214, 255));
+        Controlador.darEstiloBoton(this.btnReport, iconRep, new Color(163, 214, 255));
+        Controlador.darEstiloBoton(this.btnInven, iconInven, new Color(163, 214, 255));
+        Controlador.darEstiloBoton(this.btnPagos, iconPagos, new Color(163, 214, 255));
 
     }
 
@@ -80,22 +55,17 @@ public class Principal extends javax.swing.JFrame {
         btnPagos = new javax.swing.JButton();
         btnInven = new javax.swing.JButton();
         btnReport = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        btnUser = new javax.swing.JButton();
+        btnConfig = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         labTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        menu = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnPagos.setFont(new java.awt.Font("Raleway", 0, 24)); // NOI18N
-        btnPagos.setForeground(new java.awt.Color(255, 255, 255));
+        btnPagos.setForeground(new java.awt.Color(0, 0, 0));
+        btnPagos.setText("Pagos");
         btnPagos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +75,7 @@ public class Principal extends javax.swing.JFrame {
 
         btnInven.setFont(new java.awt.Font("Raleway", 0, 24)); // NOI18N
         btnInven.setForeground(new java.awt.Color(0, 0, 0));
+        btnInven.setText("Inventarios");
         btnInven.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInven.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,41 +84,53 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnReport.setFont(new java.awt.Font("Raleway", 0, 24)); // NOI18N
-        btnReport.setForeground(new java.awt.Color(255, 255, 255));
+        btnReport.setForeground(new java.awt.Color(0, 0, 0));
+        btnReport.setText("Reportes");
         btnReport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel2.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Inventarios");
+        btnUser.setFont(new java.awt.Font("Raleway", 0, 24)); // NOI18N
+        btnUser.setForeground(new java.awt.Color(0, 0, 0));
+        btnUser.setText("Usuarios");
+        btnUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUserActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Pagos");
-
-        jLabel5.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Reportes");
+        btnConfig.setFont(new java.awt.Font("Raleway", 0, 24)); // NOI18N
+        btnConfig.setForeground(new java.awt.Color(0, 0, 0));
+        btnConfig.setText("Configuración");
+        btnConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnConfig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfigActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout prinPanLayout = new javax.swing.GroupLayout(prinPan);
         prinPan.setLayout(prinPanLayout);
         prinPanLayout.setHorizontalGroup(
             prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(prinPanLayout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addGroup(prinPanLayout.createSequentialGroup()
-                        .addComponent(btnPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(183, 183, 183)
-                        .addComponent(btnInven, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(173, 173, 173)
-                        .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(prinPanLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addGap(297, 297, 297)
-                        .addComponent(jLabel2)
-                        .addGap(252, 252, 252)
-                        .addComponent(jLabel5)))
-                .addGap(48, 48, 48))
+                .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(prinPanLayout.createSequentialGroup()
+                            .addGap(156, 156, 156)
+                            .addComponent(jLabel3))
+                        .addGroup(javax.swing.GroupLayout.Alignment.CENTER, prinPanLayout.createSequentialGroup()
+                            .addGap(136, 136, 136)
+                            .addComponent(btnPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(183, 183, 183)
+                            .addComponent(btnInven, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(173, 173, 173)
+                            .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, prinPanLayout.createSequentialGroup()
+                        .addGap(326, 326, 326)
+                        .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(200, 200, 200)
+                        .addComponent(btnConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         prinPanLayout.setVerticalGroup(
             prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -157,12 +140,17 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInven, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReport, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(prinPanLayout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnUser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, prinPanLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 283, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(12, 12, 12))))
         );
 
         jLabel1.setFont(new java.awt.Font("Raleway", 1, 32)); // NOI18N
@@ -185,39 +173,6 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
-
-        jMenu1.setText("File");
-        menu.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        menu.add(jMenu2);
-
-        jMenu3.setText("Salir");
-        jMenu3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu3ActionPerformed(evt);
-            }
-        });
-
-        jMenuItem1.setText("Cerrar Session");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem1);
-
-        jMenuItem2.setText("Salir");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem2);
-
-        menu.add(jMenu3);
-
-        setJMenuBar(menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -242,31 +197,25 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu3ActionPerformed
-
-    }//GEN-LAST:event_jMenu3ActionPerformed
-
     private void btnInvenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvenActionPerformed
         InventarioFrame inven = new InventarioFrame();
         inven.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnInvenActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        Login login = new Login();
-        login.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        dispose();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void btnPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagosActionPerformed
         Pagos pagos = new Pagos();
         pagos.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnPagosActionPerformed
+
+    private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUserActionPerformed
+
+    private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnConfigActionPerformed
 
     /**
      * @param args the command line arguments
@@ -304,20 +253,14 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnInven;
     private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnReport;
+    private javax.swing.JButton btnUser;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel labTitulo;
-    private javax.swing.JMenuBar menu;
     private javax.swing.JPanel prinPan;
     // End of variables declaration//GEN-END:variables
 }
