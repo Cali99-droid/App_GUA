@@ -55,15 +55,16 @@ public class Inventario {
         }
         return inventarios;
     }
-    
+
     public static boolean validarCantidad(){
         boolean b = true;
-        String query = "SELECT count(*) FROM colegiobd.inventario where YEAR(fecha_inicio) = 2020";
+        String query = "SELECT count(*) FROM colegiobd.inventario where YEAR(fecha_inicio) = YEAR(CURDATE())";
         try {
             Base.st = Base.conec.createStatement();
             Base.rt = Base.st.executeQuery(query);
             while (Base.rt.next()) {
                int cant = Integer.parseInt(Base.rt.getString(1));
+               
                if(cant >= 2){
                    b=false;
                }
@@ -117,13 +118,14 @@ public class Inventario {
         String query = "INSERT INTO articulo_x_inventario VALUES(null,?, ?, ?, ?)";
 
         for (int i = 0; i < this.articulos.size(); i++) {
+             
             PreparedStatement st;
             try {
                 st = Conexion.conec.prepareStatement(query);
-                st.setInt(1, articulos.get(i).getIdArticulo());
+                st.setInt(1, this.articulos.get(i).getIdArticulo());
                 st.setInt(2, this.idinventario);
-                st.setString(3, articulos.get(i).getEstado());
-                st.setString(4, articulos.get(i).getArea());
+                st.setString(3, this.articulos.get(i).getEstado());
+                st.setString(4, this.articulos.get(i).getArea());
                 st.executeUpdate();
             } catch (SQLException ex) {
                 Logger.getLogger(Inventario.class.getName()).log(Level.SEVERE, null, ex);
@@ -209,6 +211,10 @@ public class Inventario {
 
     public void setArticulos(ArrayList<Articulo> articulos) {
         this.articulos = articulos;
+    }
+    
+     public ArrayList traerArticulos() {
+        return articulos;
     }
     
     

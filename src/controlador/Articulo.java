@@ -14,12 +14,12 @@ import java.util.logging.Logger;
  */
 public class Articulo {
     private int idinventario;
-    int idArticulo;
-    String nombre;
-    String descripcion;
-    String area;
-    String estado;
-    String categoria;
+    private  int idArticulo;
+    private  String nombre;
+    private String descripcion;
+    private String area;
+   private  String estado;
+    private String categoria;
    
 
    //ids
@@ -115,6 +115,8 @@ public class Articulo {
         
        return b; 
     }
+    
+  
 
     public int getIdArticulo() {
         return idArticulo;

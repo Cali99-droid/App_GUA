@@ -57,6 +57,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        lab_session = new javax.swing.JLabel();
         prinPan = new javax.swing.JPanel();
         btnPagos = new javax.swing.JButton();
         btnInven = new javax.swing.JButton();
@@ -118,6 +119,10 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        lab_session.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        lab_session.setForeground(new java.awt.Color(255, 255, 255));
+        lab_session.setText("Administrador");
+
         javax.swing.GroupLayout labTitulo1Layout = new javax.swing.GroupLayout(labTitulo1);
         labTitulo1.setLayout(labTitulo1Layout);
         labTitulo1Layout.setHorizontalGroup(
@@ -126,14 +131,18 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, labTitulo1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(329, 329, 329))
+                .addGap(254, 254, 254)
+                .addComponent(lab_session)
+                .addContainerGap())
         );
         labTitulo1Layout.setVerticalGroup(
             labTitulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(labTitulo1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(labTitulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(lab_session))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
@@ -244,7 +253,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(btnConfig)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton5)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         prinPanLayout.setVerticalGroup(
             prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,7 +290,7 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(labTitulo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(prinPan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -369,6 +378,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel labTitulo;
     private javax.swing.JPanel labTitulo1;
+    private javax.swing.JLabel lab_session;
     private javax.swing.JPanel prinPan;
     // End of variables declaration//GEN-END:variables
 }

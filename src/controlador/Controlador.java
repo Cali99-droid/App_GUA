@@ -67,6 +67,15 @@ public class Controlador {
         }
         return false;
     }
+    
+    public static boolean estaVacioTa(JTextArea... tx) {
+        for (JTextArea tx1 : tx) {
+            if (tx1.getText().trim().length() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void soloLetras(KeyEvent e) {
         char c = e.getKeyChar();
