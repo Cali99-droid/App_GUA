@@ -126,7 +126,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, labTitulo1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel13)
-                .addGap(341, 341, 341))
+                .addGap(329, 329, 329))
         );
         labTitulo1Layout.setVerticalGroup(
             labTitulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,9 +228,9 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(prinPanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(prinPanLayout.createSequentialGroup()
                         .addComponent(btnPagos)
-                        .addGap(187, 187, 187)
+                        .addGap(170, 170, 170)
                         .addComponent(btnInven)
-                        .addGap(187, 187, 187)
+                        .addGap(170, 170, 170)
                         .addComponent(btnReport)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(prinPanLayout.createSequentialGroup()
@@ -240,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jLabel3))
                             .addGroup(prinPanLayout.createSequentialGroup()
                                 .addComponent(btnUser)
-                                .addGap(187, 187, 187)
+                                .addGap(170, 170, 170)
                                 .addComponent(btnConfig)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton5)))
@@ -273,9 +273,7 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(labTitulo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(prinPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(prinPan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
