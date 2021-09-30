@@ -309,7 +309,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPagosActionPerformed
 
     private void btnUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUserActionPerformed
-        // TODO add your handling code here:
+        new UsersFrame().setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnUserActionPerformed
 
     private void btnConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigActionPerformed
