@@ -5,12 +5,12 @@
  */
 package ventana;
 
-import controlador.Articulo;
 import controlador.Controlador;
 import controlador.User;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,26 +18,24 @@ import javax.swing.table.DefaultTableModel;
  * @author CARLOS ORELLANO
  */
 public class UsersFrame extends javax.swing.JFrame {
-    
-    
-     private ArrayList<User> users = User.All();
- Controlador cont = new Controlador();
- DefaultTableModel modelo = new DefaultTableModel();
+
+    private ArrayList<User> users = User.All();
+    Controlador cont = new Controlador();
+    DefaultTableModel modelo = new DefaultTableModel();
+
     /**
      * Creates new form UsersFrame
      */
     public UsersFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
- 
+
         this.getContentPane().setBackground(new Color(255, 255, 255));
-        
-        
-         modelo.setColumnIdentifiers(new String[]{"ID", "DNI","Nombre", "Apellido", "Usuario", "Rol", "Telefono"});
-         listarUsers();
+
+        modelo.setColumnIdentifiers(new String[]{"ID", "DNI", "Nombre", "Apellido", "Usuario", "Rol", "Telefono"});
+        listarUsers();
     }
-    
-    
+
     public void buscar_existente() {
 
         Map<String, String> datos = cont.getData(txtDni.getText());
@@ -48,7 +46,7 @@ public class UsersFrame extends javax.swing.JFrame {
         dniLab.setText(datos.get("dni"));
         //txtDni.setText(datos.get("dni"));       
     }
-    
+
     public void listarUsers() {
 
         cont.LimTabla(modelo);
@@ -67,6 +65,56 @@ public class UsersFrame extends javax.swing.JFrame {
         }
         this.tableUsers.setModel(modelo);
     }
+    
+       public void seleccion() {
+        if (tableUsers.getSelectedRow() > -1) {
+
+            int fila = tableUsers.getSelectedRow();
+            User us = new User();
+            us = us.find(tableUsers.getValueAt(fila, 1).toString());
+            System.out.println(us.getDni());
+            txtDni.setText(us.getDni());
+            txtNombre.setText(us.getNombre());
+            txtApellido.setText(us.getApellidos());
+            txtDir.setText(us.getDireccion());
+            txtTel.setText(us.getTelefono());
+            txtUser.setText(us.getUsuario());
+            txtPass.setText(us.getPass());
+            cbRol.setSelectedItem(us.getRol().toUpperCase());
+            
+           
+
+        } else {
+
+            //limpiar();
+        }
+    }
+       
+       public void agregarUser(){
+           
+        String dni = dniLab.getText();
+
+        if (dni == null) {
+            dni = txtDni.getText();
+        }
+           
+           User us = new User(dni, 
+                              txtNombre.getText(), 
+                              txtApellido.getText(), 
+                              txtDir.getText(), 
+                              txtTel.getText(), 
+                              txtUser.getText(), 
+                              txtPass.getText(),
+                               cbRol.getSelectedItem().toString());
+           if(us.agregarPersona()){
+               JOptionPane.showMessageDialog(null, "Registrado con Éxito");
+               users = User.All();
+               listarUsers();
+           }else{
+               JOptionPane.showMessageDialog(this, "El DNI del usuario ya existe !!", "Mensaje", 2);
+           }
+      
+       }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -91,9 +139,9 @@ public class UsersFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtTel2 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtUser = new javax.swing.JTextField();
+        cbRol = new javax.swing.JComboBox<>();
+        txtPass = new javax.swing.JPasswordField();
         dniLab = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -167,9 +215,9 @@ public class UsersFrame extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(64, 71, 86));
         jLabel8.setText("Rol");
 
-        txtTel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtUser.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMIN", "PERSONAL", "DIRECTOR", " " }));
 
         dniLab.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -196,10 +244,10 @@ public class UsersFrame extends javax.swing.JFrame {
                                 .addComponent(txtApellido)
                                 .addComponent(txtNombre)
                                 .addComponent(txtTel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cbRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtTel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)))
+                                .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)))
                         .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(labDatosLayout.createSequentialGroup()
                         .addComponent(jLabel13)
@@ -238,18 +286,22 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtTel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addGroup(labDatosLayout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jPasswordField1)))
+                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14))
+                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(labDatosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel8))
+                    .addGroup(labDatosLayout.createSequentialGroup()
+                        .addComponent(cbRol)
+                        .addGap(1, 1, 1)))
+                .addGap(15, 15, 15))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -265,6 +317,11 @@ public class UsersFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableUsersMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableUsers);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -275,6 +332,11 @@ public class UsersFrame extends javax.swing.JFrame {
         jButton1.setText("Agregar");
         jButton1.setBorderPainted(false);
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(217, 162, 27));
         jButton2.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
@@ -453,7 +515,7 @@ public class UsersFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void txtDniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyReleased
-          buscar_existente();
+        buscar_existente();
     }//GEN-LAST:event_txtDniKeyReleased
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -468,6 +530,14 @@ public class UsersFrame extends javax.swing.JFrame {
         new Principal().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void tableUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableUsersMouseClicked
+        seleccion();
+    }//GEN-LAST:event_tableUsersMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        agregarUser();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,13 +576,13 @@ public class UsersFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JComboBox<String> cbRol;
     private javax.swing.JLabel dniLab;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -525,7 +595,6 @@ public class UsersFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel labDatos;
     private javax.swing.JPanel labTitulo;
@@ -534,7 +603,8 @@ public class UsersFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtDir;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtTel;
-    private javax.swing.JTextField txtTel2;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

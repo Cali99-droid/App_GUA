@@ -219,6 +219,7 @@ public class Controlador {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()) {
+                datos.put("idpersona", rs.getString("idpersona"));
                 datos.put("nombre", rs.getString("nombre"));
                 datos.put("apellido", rs.getString("apellido"));
                 datos.put("dni", rs.getString("dni"));
