@@ -56,14 +56,14 @@ public class Imprimir {
         rta = System.getProperties().getProperty("user.dir") + "/src/reportes/" + NRpt
                 + ".jasper";
         parame.put(prm1, vlr1);
-        System.out.println(rta);
+        //System.out.println(rta);
         try {
             JasperPrint impri = JasperFillManager
                     .fillReport(rta, parame, cconn.conec);
             JasperViewer jasperViewer = new JasperViewer(impri, false);
             jasperViewer.setVisible(true);
             jasperViewer.setExtendedState(Frame.MAXIMIZED_BOTH);
-            System.out.println("finalizo muestra");
+           // System.out.println("finalizo muestra");
         } catch (JRException ex) {
             ex.printStackTrace();
         }
