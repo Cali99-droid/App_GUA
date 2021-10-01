@@ -187,6 +187,11 @@ public class Principal extends javax.swing.JFrame {
         btnReport.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
 
         btnUser.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
         btnUser.setForeground(new java.awt.Color(0, 99, 174));
@@ -220,13 +225,18 @@ public class Principal extends javax.swing.JFrame {
 
         jButton5.setFont(new java.awt.Font("Raleway", 1, 24)); // NOI18N
         jButton5.setForeground(new java.awt.Color(0, 99, 174));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/icos/perf.png"))); // NOI18N
-        jButton5.setText("Mi Perfil");
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/icos/logout.png"))); // NOI18N
+        jButton5.setText("Salir");
         jButton5.setBorderPainted(false);
         jButton5.setContentAreaFilled(false);
         jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout prinPanLayout = new javax.swing.GroupLayout(prinPan);
         prinPan.setLayout(prinPanLayout);
@@ -325,6 +335,16 @@ public class Principal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+       new Reportes().setVisible(true);
+       dispose();
+    }//GEN-LAST:event_btnReportActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       new Login().setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,23 +381,17 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnConfig;
     private javax.swing.JButton btnInven;
     private javax.swing.JButton btnPagos;
     private javax.swing.JButton btnReport;
     private javax.swing.JButton btnUser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel labTitulo;
     private javax.swing.JPanel labTitulo1;
     private javax.swing.JLabel lab_session;
     private javax.swing.JPanel prinPan;

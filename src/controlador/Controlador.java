@@ -28,6 +28,21 @@ public class Controlador {
             e.printStackTrace();
         }
     }
+    
+    public void LlenarComboss(JComboBox cbo, String Consulta, int pos) {
+        cbo.removeAllItems();
+    
+        try {
+            Base.rt = DevolverRegistro(Consulta);
+
+            while (Base.rt.next()) {
+                cbo.addItem(Base.rt.getString(pos).toUpperCase());
+            }
+            cbo.setSelectedIndex(-1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void darEstiloBoton(JButton btn, ImageIcon icon, Color col) {
         btn.setBackground(col);
@@ -66,6 +81,13 @@ public class Controlador {
             }
         }
         return false;
+    }
+    
+    public static void limpiar(JTextField... tx) {
+        for (JTextField tx1 : tx) {
+           tx1.setText("");
+        }
+      
     }
     
     public static boolean estaVacioTa(JTextArea... tx) {

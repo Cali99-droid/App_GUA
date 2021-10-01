@@ -91,12 +91,16 @@ public class User {
 
     public User find(String dni) {
 
-        users = User.All();
+    ArrayList<User> userss = User.All();
 
         User us = new User();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getDni().equals(dni)) {
-                us = users.get(i);
+        for (int i = 0; i < userss.size(); i++) {
+          //  System.out.println(userss.get(i).getDni());
+            if (userss.get(i).getDni().equals(dni)) {
+                
+                us = userss.get(i);
+               
+                
             }
         }
 
@@ -104,34 +108,32 @@ public class User {
 
     }
 
-    public void buscarPersona() {
-        String query = "SELECT * FROM persona where dni = ?";
-
-    }
-
     public boolean agregarPersona() {
-       boolean b = true;
+        boolean b = true;
+     
         User us = find(this.dni);
+        
 
         if (us.getNombre() == null) {
+ 
             //  System.out.println("no esxite por lo tanto buscare en la tabla de personas " + us.getNombre() + " " + this.dni); 
             Map<String, String> datos = cont.getData(this.dni);
             if (datos.isEmpty()) {
-                
+
                 insertNuevaPersona();
                 datos = cont.getData(this.dni);
                 this.idpersona = Integer.parseInt(datos.get("idpersona"));
                 insertUser();
                 System.out.println("exito nueva persona");
-                
+
             } else {
-               this.idpersona = Integer.parseInt(datos.get("idpersona"));
-               insertUser();
-                System.out.println("exito con existente " + datos.get("idpersona") + " " + datos.get("nombre") );
+                this.idpersona = Integer.parseInt(datos.get("idpersona"));
+                insertUser();
+                System.out.println("exito con existente " + datos.get("idpersona") + " " + datos.get("nombre"));
             }
 
         } else {
-            b= false;
+            b = false;
             System.out.println("este usuario existe");
         }
 
@@ -156,8 +158,8 @@ public class User {
         }
 
     }
-    
-    public void insertUser(){
+
+    public void insertUser() {
         String query = "INSERT INTO usuario VALUES(null,?,MD5(?), ?, ?)";
         try {
             PreparedStatement st = Conexion.conec.prepareStatement(query);
@@ -165,13 +167,76 @@ public class User {
             st.setString(2, this.pass);
             st.setString(3, this.rol);
             st.setInt(4, this.idpersona);
-      if (st.executeUpdate() == 1) {
+            if (st.executeUpdate() == 1) {
 
             }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void actualizarPers() {
+        String query = "UPDATE persona SET nombre = ?, apellido = ?, dni = ?, direccion = ?, telefono = ? WHERE idpersona = ?";
+        try {
+            PreparedStatement st = Conexion.conec.prepareStatement(query);
+            st.setString(1, this.nombre);
+            st.setString(2, this.apellidos);
+            st.setString(3, this.dni);
+            st.setString(4, this.direccion);
+            st.setString(5, this.telefono);
+            st.setInt(6, idpersona);
+            if (st.executeUpdate() == 1) {
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void actualizarUser() {
+        String query = "UPDATE Usuario SET usuario = ?, pass = MD5(?), rol = ? WHERE idusuario = ?";
+        try {
+            PreparedStatement st = Conexion.conec.prepareStatement(query);
+            st.setString(1, this.usuario);
+            st.setString(2, this.pass);
+            st.setString(3, this.rol);
+            st.setInt(4, this.idusuario);
+
+            if (st.executeUpdate() == 1) {
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+    
+    public static void eliminar(int id){
+        
+        
+        String query = "DELETE FROM Usuario WHERE idusuario = ?";
+        try {
+            PreparedStatement st = Conexion.conec.prepareStatement(query);
+   
+            st.setInt(1, id);
+
+            if (st.executeUpdate() == 1) {
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        
+    }
+    
+    public void asignarIdPersona(){
+        
     }
 
     public int getIdusuario() {

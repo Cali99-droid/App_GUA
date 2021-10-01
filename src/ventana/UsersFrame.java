@@ -5,12 +5,18 @@
  */
 package ventana;
 
+import Clases.Exporter;
+import controlador.Conexion;
 import controlador.Controlador;
 import controlador.User;
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -65,56 +71,122 @@ public class UsersFrame extends javax.swing.JFrame {
         }
         this.tableUsers.setModel(modelo);
     }
-    
-       public void seleccion() {
+
+    public void seleccion() {
         if (tableUsers.getSelectedRow() > -1) {
 
             int fila = tableUsers.getSelectedRow();
             User us = new User();
             us = us.find(tableUsers.getValueAt(fila, 1).toString());
-            System.out.println(us.getDni());
+            // System.out.println(us.getDni());
             txtDni.setText(us.getDni());
             txtNombre.setText(us.getNombre());
             txtApellido.setText(us.getApellidos());
             txtDir.setText(us.getDireccion());
             txtTel.setText(us.getTelefono());
             txtUser.setText(us.getUsuario());
-            txtPass.setText(us.getPass());
+            // txtPass.setText(us.getPass());
             cbRol.setSelectedItem(us.getRol().toUpperCase());
-            
-           
 
         } else {
 
             //limpiar();
         }
     }
-       
-       public void agregarUser(){
-           
-        String dni = dniLab.getText();
 
-        if (dni == null) {
-            dni = txtDni.getText();
+    public void agregarUser() {
+        if (validarCampos() || cbRol.getSelectedIndex() < 1) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+        } else {
+            String dni = dniLab.getText();
+
+            if (dni == null || dni.equals("")) {
+                dni = txtDni.getText();
+            }
+
+            User us = new User(dni,
+                    txtNombre.getText(),
+                    txtApellido.getText(),
+                    txtDir.getText(),
+                    txtTel.getText(),
+                    txtUser.getText(),
+                    txtPass.getText(),
+                    cbRol.getSelectedItem().toString());
+            if (us.agregarPersona()) {
+                JOptionPane.showMessageDialog(null, "Registrado con Éxito");
+                users = User.All();
+                listarUsers();
+                limpiar();
+            } else {
+                JOptionPane.showMessageDialog(this, "El DNI del usuario ya existe !!", "Mensaje", 2);
+            }
         }
-           
-           User us = new User(dni, 
-                              txtNombre.getText(), 
-                              txtApellido.getText(), 
-                              txtDir.getText(), 
-                              txtTel.getText(), 
-                              txtUser.getText(), 
-                              txtPass.getText(),
-                               cbRol.getSelectedItem().toString());
-           if(us.agregarPersona()){
-               JOptionPane.showMessageDialog(null, "Registrado con Éxito");
-               users = User.All();
-               listarUsers();
-           }else{
-               JOptionPane.showMessageDialog(this, "El DNI del usuario ya existe !!", "Mensaje", 2);
-           }
-      
-       }
+
+    }
+
+    public void actualizarUser() {
+
+        if (tableUsers.getSelectedRow() > -1) {
+
+            if (validarCampos() || cbRol.getSelectedIndex() < 1) {
+                JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
+            } else {
+                int fila = tableUsers.getSelectedRow();
+                ArrayList<User> userss = User.All();
+
+                User us = new User();
+                for (int i = 0; i < userss.size(); i++) {
+                    if (userss.get(i).getIdusuario() == Integer.parseInt(tableUsers.getValueAt(fila, 0).toString())) {
+                        us = userss.get(i);
+                    }
+                }
+                // System.out.println("se actualiza: " + us.getNombre() + "  su idpersona es " + us.getIdpersona());
+                us.setNombre(txtNombre.getText());
+                us.setApellidos(txtApellido.getText());
+                us.setDireccion(txtDir.getText());
+                us.setTelefono(txtTel.getText());
+                us.setUsuario(txtUser.getText());
+                us.setPass(txtPass.getText());
+                us.setRol(cbRol.getSelectedItem().toString());
+
+                us.actualizarPers();
+                us.actualizarUser();
+
+                this.users = User.All();
+                listarUsers();
+                JOptionPane.showMessageDialog(null, "Actualizado con Éxito");
+                limpiar();
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario !!", "Mensaje", 2);
+        }
+    }
+
+    public void eliminar() {
+        if (tableUsers.getSelectedRow() > -1) {
+            int fila = tableUsers.getSelectedRow();
+            User.eliminar(Integer.parseInt(tableUsers.getValueAt(fila, 0).toString()));
+            this.users = User.All();
+            listarUsers();
+            JOptionPane.showMessageDialog(null, "Eliminado con Éxito");
+            limpiar();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un usuario !!", "Mensaje", 2);
+        }
+    }
+
+    public boolean validarCampos() {
+
+        return cont.estaVacio(txtNombre, txtApellido, txtDir, txtDni, txtTel, txtUser, txtPass);
+
+    }
+
+    public void limpiar() {
+        Controlador.limpiar(txtNombre, txtApellido, txtDir, txtDni, txtTel, txtUser, txtPass);
+        cbRol.setSelectedIndex(0);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,6 +222,7 @@ public class UsersFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        ex = new javax.swing.JButton();
         labTitulo = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -217,7 +290,7 @@ public class UsersFrame extends javax.swing.JFrame {
 
         txtUser.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMIN", "PERSONAL", "DIRECTOR", " " }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMINISTRADOR", "PERSONAL", "DIRECTOR", " " }));
 
         dniLab.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -296,7 +369,7 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labDatosLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 7, Short.MAX_VALUE)
                         .addComponent(jLabel8))
                     .addGroup(labDatosLayout.createSequentialGroup()
                         .addComponent(cbRol)
@@ -344,6 +417,11 @@ public class UsersFrame extends javax.swing.JFrame {
         jButton2.setText("Actualizar");
         jButton2.setBorderPainted(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(219, 79, 72));
         jButton3.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
@@ -351,6 +429,11 @@ public class UsersFrame extends javax.swing.JFrame {
         jButton3.setText("Eliminar");
         jButton3.setBorderPainted(false);
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -376,6 +459,19 @@ public class UsersFrame extends javax.swing.JFrame {
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        ex.setBackground(new java.awt.Color(0, 99, 174));
+        ex.setFont(new java.awt.Font("Raleway", 1, 11)); // NOI18N
+        ex.setForeground(new java.awt.Color(255, 255, 255));
+        ex.setIcon(new javax.swing.ImageIcon(getClass().getResource("/src/icos/excel.png"))); // NOI18N
+        ex.setText("Exportar");
+        ex.setBorderPainted(false);
+        ex.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -387,15 +483,21 @@ public class UsersFrame extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)
                         .addContainerGap())
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ex, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ex)
+                .addGap(19, 19, 19))
         );
 
         labTitulo.setBackground(new java.awt.Color(0, 99, 174));
@@ -502,7 +604,7 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addComponent(labTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 393, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -538,6 +640,41 @@ public class UsersFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         agregarUser();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        actualizarUser();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        eliminar();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void exActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exActionPerformed
+        if (tableUsers.getRowCount() > 0) {
+            JFileChooser chooser = new JFileChooser();
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+            chooser.setFileFilter(filter);
+            chooser.setDialogTitle("Guardar archivo");
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                List tb = new ArrayList();
+                List nom = new ArrayList();
+                tb.add(tableUsers);
+                nom.add("Compras por factura");
+                String file = chooser.getSelectedFile().toString().concat(".xls");
+                try {
+                    Clases.Exporter e = new Exporter(new File(file), tb, nom);
+                    if (e.export()) {
+                        JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel en el directorio seleccionado", "Mensaje de Informacion", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Hubo un error " + e.getMessage(), " Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos para exportar", "Mensaje de error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_exActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,6 +715,7 @@ public class UsersFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JComboBox<String> cbRol;
     private javax.swing.JLabel dniLab;
+    private javax.swing.JButton ex;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

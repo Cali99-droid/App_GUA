@@ -904,7 +904,17 @@ public class InventarioFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarKeyTyped
 
     private void actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualizarActionPerformed
-        pre_actualizar();
+        if (Controlador.estaVacio(nombre) || Controlador.estaVacioTa(descripcion)) {
+            JOptionPane.showMessageDialog(this, "Debe llenar todos los campos", "Mensaje", 2);
+        } else {
+            if (area_c.getSelectedIndex() < 1 || estado_c.getSelectedIndex() < 1 || categoria_c.getSelectedIndex() < 1) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar todos los campos", "Mensaje", 2);
+            } else {
+                pre_actualizar();
+            }
+        }
+        
+        
     }//GEN-LAST:event_actualizarActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked

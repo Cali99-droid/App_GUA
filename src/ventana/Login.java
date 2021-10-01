@@ -36,7 +36,7 @@ public class Login extends javax.swing.JFrame {
         String user = txtUsuario.getText();
         String pass = txtPass.getText();
         
-        String sql = "SELECT * FROM usuario WHERE usuario = '"+user+"' and password = md5('"+pass+"')";
+        String sql = "SELECT * FROM usuario WHERE usuario = '"+user.trim()+"' and pass = md5('"+pass+"')";
         
         if(cont.Verificarconsulta(sql)){
           Principal prin = new Principal();
