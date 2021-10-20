@@ -1,3 +1,10 @@
+/**
+ * 
+ * CLASE Articulo
+ */
+
+
+
 package controlador;
 
 import static controlador.Controlador.Base;
@@ -13,12 +20,14 @@ import java.util.logging.Logger;
  * @author CARLOS ORELLANO
  */
 public class Articulo {
+    
+    // Atributos
     private int idinventario;
     private  int idArticulo;
     private  String nombre;
     private String descripcion;
     private String area;
-   private  String estado;
+    private  String estado;
     private String categoria;
    
 
@@ -67,7 +76,13 @@ public class Articulo {
         
     }
 
+    
+    /**
+     * Este es el metodo que trae todos los articulos
+     * @return retorna todos articulos 
+     */
     public static ArrayList mapear() {
+        
         ArrayList<Articulo> articulos = new ArrayList<>();
         String query = "SELECT * FROM v_articulos";
         
@@ -94,6 +109,10 @@ public class Articulo {
 
     }
     
+     /**
+     * Este es el metodo que trae todos los articulos
+     * @return retorna todos articulos 
+     */
     public boolean agregarArticulo(){
         boolean b = false;
         String query = "INSERT INTO articulo VALUES( null,?, ?, CURDATE(), ?, ?, ?)";

@@ -2,8 +2,10 @@ package ventana;
 
 import java.awt.Color;
 import controlador.*;
+import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author CARLOS ORELLANO
@@ -15,6 +17,10 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+
+    ArrayList<Articulo> ar = Articulo.mapear();
+    
+    
    Controlador cont = new Controlador();
     
     public Login() {
@@ -22,6 +28,7 @@ public class Login extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(new Color(16,174,255));
         this.txtUsuario.requestFocus();
+
 
 //        loginPan.setBackground(new Color(20, 164, 247));
 //        this.btnAcceder.setBackground(new Color(0, 117, 52));
@@ -38,7 +45,7 @@ public class Login extends javax.swing.JFrame {
         
         String sql = "SELECT * FROM usuario WHERE usuario = '"+user.trim()+"' and pass = md5('"+pass+"')";
         
-        if(cont.Verificarconsulta(sql)){
+       if(cont.Verificarconsulta(sql)){
           Principal prin = new Principal();
           prin.setVisible(true);
           dispose();
@@ -103,6 +110,7 @@ public class Login extends javax.swing.JFrame {
         btnAcceder.setText("Acceder");
         btnAcceder.setBorderPainted(false);
         btnAcceder.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAcceder.setFocusPainted(false);
         btnAcceder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAccederActionPerformed(evt);
@@ -289,7 +297,7 @@ public class Login extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
+                if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

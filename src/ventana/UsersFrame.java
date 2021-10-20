@@ -90,7 +90,7 @@ public class UsersFrame extends javax.swing.JFrame {
 
         } else {
 
-            //limpiar();
+            limpiar();
         }
     }
 

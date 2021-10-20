@@ -32,6 +32,7 @@ public class Inventario {
         this.fecha_fin = fecha_fin;
         this.observaciones = observaciones;
         this.idusuario = idusuario;
+        
     }
 
     public static ArrayList all() {
@@ -66,7 +67,7 @@ public class Inventario {
                int cant = Integer.parseInt(Base.rt.getString(1));
                
                if(cant >= 2){
-                   b=false;
+                   b=true;
                }
             }
         } catch (SQLException ex) {
@@ -192,7 +193,7 @@ public class Inventario {
     public void setFecha_fin(String fecha_fin) {
         this.fecha_fin = fecha_fin;
     }
-
+//
     public String getObservaciones() {
         return observaciones;
     }

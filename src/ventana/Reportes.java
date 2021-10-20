@@ -499,7 +499,7 @@ public class Reportes extends javax.swing.JFrame {
        this.fe.setDateFormatString("yyyy-MM-dd");
        
        
-        System.out.println(((JTextField)fe.getDateEditor().getUiComponent()).getText());
+       // System.out.println(((JTextField)fe.getDateEditor().getUiComponent()).getText());
         imp.generar_reporte("totalXfechas", "p_fecha",((JTextField)fe.getDateEditor().getUiComponent()).getText());
     }//GEN-LAST:event_jButton2ActionPerformed
 

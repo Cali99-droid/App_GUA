@@ -215,6 +215,7 @@ public class User {
 
     }
     
+    
     public static void eliminar(int id){
         
         
@@ -235,9 +236,7 @@ public class User {
         
     }
     
-    public void asignarIdPersona(){
-        
-    }
+
 
     public int getIdusuario() {
         return idusuario;

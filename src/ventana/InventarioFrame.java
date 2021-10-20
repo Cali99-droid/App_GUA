@@ -28,7 +28,7 @@ public class InventarioFrame extends javax.swing.JFrame {
     ImageIcon iconBack = new ImageIcon("src/src/icos/back.png");
 
     private ArrayList<Articulo> articulos = Articulo.mapear();
-    ArrayList<Inventario> inventarios = Inventario.all();
+    private ArrayList<Inventario> inventarios = Inventario.all();
     Controlador cont = new Controlador();
     private TableRowSorter trsfiltro;
     String filtro;
@@ -106,7 +106,9 @@ public class InventarioFrame extends javax.swing.JFrame {
 
         //c_inventarios.setSelectedIndex(-1);
     }
-
+/**
+ * este metodo llena la tabla
+ */
     public void imprimirArticulos() {
 
         int index = this.c_inventarios.getSelectedIndex();
@@ -153,7 +155,6 @@ public class InventarioFrame extends javax.swing.JFrame {
             area_c.setSelectedItem(t_articulos.getValueAt(fila, 3));
             estado_c.setSelectedItem(t_articulos.getValueAt(fila, 4));
             categoria_c.setSelectedItem(t_articulos.getValueAt(fila, 5));
-
         } else {
 
             limpiar();

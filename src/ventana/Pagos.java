@@ -502,6 +502,11 @@ public class Pagos extends javax.swing.JFrame {
                 btnCancelarMouseExited(evt);
             }
         });
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAceptar.setBackground(new java.awt.Color(0, 99, 174));
         btnAceptar.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -794,6 +799,10 @@ public class Pagos extends javax.swing.JFrame {
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
         this.btnCancelar.setBackground(new Color(219,79,72));
     }//GEN-LAST:event_btnCancelarMouseExited
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+       limpiar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
