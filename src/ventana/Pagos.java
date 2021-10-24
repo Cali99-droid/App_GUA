@@ -2,6 +2,7 @@ package ventana;
 
 import controlador.Controlador;
 import controlador.Imprimir;
+import javax.swing.table.DefaultTableModel;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.Map;
@@ -19,14 +20,12 @@ public class Pagos extends javax.swing.JFrame {
      * Creates new form Pagos
      */
     Controlador cont = new Controlador();
-    DefaultListModel modelo = new DefaultListModel();
-    DefaultListModel modeloc = new DefaultListModel();
-    DefaultListModel modeloS = new DefaultListModel();
-    DefaultListModel modeloCS = new DefaultListModel();
 
     public static double MONTO;
+    DefaultTableModel modelo = new DefaultTableModel();
 
     public Pagos() {
+
         initComponents();
         this.getContentPane().setBackground(new Color(255, 255, 255));
         this.setLocationRelativeTo(null);
@@ -38,19 +37,31 @@ public class Pagos extends javax.swing.JFrame {
 //        this.btnCancelar.setBackground(new Color(255, 103, 112));
         //this.btnAgregar.setBackground(new Color(47, 179, 79));
         //this.btnQuitar.setBackground(new Color(255, 103, 112));
-        this.btnAgregar.setEnabled(false);
-        this.btnQuitar.setEnabled(false);
+////        this.btnAgregar.setEnabled(false);
+////        this.btnQuitar.setEnabled(false);
+        cb_precios.setVisible(false);
 
-        this.listCosto.setModel(modeloc);
-        this.listConceptos.setModel(modelo);
         llenarLista();
 
-        this.costoSel.setModel(modeloCS);
-        this.costoSel.setEnabled(true);
-        this.concepSel.setModel(modeloS);
-        
+        modelo.setColumnIdentifiers(new String[]{"Concepto", "Precio", "Cantidad", "Total"});
+        tb_conceptos.setModel(modelo);
         this.txtDni.requestFocus();
 
+    }
+    
+    public void totalizar(){
+        double t = 0;
+        double p = 0;
+        
+        if(tb_conceptos.getRowCount() > 0){
+            for (int i = 0; i < tb_conceptos.getRowCount(); i++) {
+                p  = Double.parseDouble(tb_conceptos.getValueAt(i, 3).toString());
+                t += p;
+                
+            }
+             Pagos.MONTO = t;
+            labTotal.setText("El Monto Total es de: " + t + " Soles");
+        }
     }
 
     public void limpiar() {
@@ -59,45 +70,88 @@ public class Pagos extends javax.swing.JFrame {
         txtDni.setText("");
         txtNombre.setText("");
         txtTel.setText("");
-        modeloS.removeAllElements();
-        modeloCS.removeAllElements();
-        listConceptos.setSelectedIndex(-1);
-        concepSel.setSelectedIndex(-1);
+
         dniLab.setText("");
     }
 
     public void agregarConcepto() {
-        String concepto, costo;
-        int cuenta, total = 0;
-        concepto = (String) listConceptos.getSelectedValue();
-        costo = (String) listCosto.getSelectedValue();
-        modeloS.addElement(concepto);
-        modeloCS.addElement(costo);
-        cuenta = modeloCS.size();
-        for (int j = 0; j < cuenta; j++) {
-            total += Double.parseDouble((String) modeloCS.elementAt(j));
-        }
-        Pagos.MONTO = total;
-        labTotal.setText("El Monto Total es de: " + String.valueOf(total) + " Soles");
-        btnAgregar.setEnabled(false);
+        String concepto;
+        int index = cb_conceptos.getSelectedIndex();
+        concepto = (String) cb_conceptos.getSelectedItem();
+        int cantidad = Integer.parseInt(sp_cantidad.getValue().toString());
+        cb_precios.setSelectedIndex(index);
+        double precio = Double.parseDouble(cb_precios.getSelectedItem().toString());
 
+        //Sección 2
+        Object[] fila = new Object[4];
+
+        //Sección 3]=txtNombrecontacto
+        fila[0] = concepto;
+        fila[1] = precio;
+        fila[2] = cantidad;
+        fila[3] = precio * cantidad;
+
+        //Sección 4
+        modelo.addRow(fila);
+        totalizar();
+        
+
+//        costo = (String) listCosto.getSelectedValue();
+//        modeloS.addElement(concepto);
+//        modeloCS.addElement(costo);
+//        cuenta = modeloCS.size();
+//        for (int j = 0; j < cuenta; j++) {
+//            total += Double.parseDouble((String) modeloCS.elementAt(j));
+//        }
+//        Pagos.MONTO = total;
+//        labTotal.setText("El Monto Total es de: " + String.valueOf(total) + " Soles");
+//        btnAgregar.setEnabled(false);
+//
     }
 
     public void eliminarConcepto() {
+        //Sección 2
+        int a = tb_conceptos.getSelectedRow();
 
-        int indice, cuenta, total = 0;
-        indice = concepSel.getSelectedIndex();
+        //Sección 3
+        if (a < 0) {
 
-        modeloS.remove(indice);
-        modeloCS.remove(indice);
-        cuenta = modeloCS.size();
-        for (int j = 0; j < cuenta; j++) {
-            total += Double.parseDouble((String) modeloCS.elementAt(j));
+            JOptionPane.showMessageDialog(null,
+                    "Debe seleccionar una fila de la tabla");
+
+        } else {
+
+            //Sección 4
+            int confirmar = JOptionPane.showConfirmDialog(null,
+                    "Esta seguro que desea Eliminar el registro? ");
+
+            //Sección 5 
+            if (JOptionPane.OK_OPTION == confirmar) {
+
+                //Sección 6
+                modelo.removeRow(a);
+
+                //Sección 7
+                JOptionPane.showMessageDialog(null, "Registro Eliminado");
+                totalizar();
+
+            }
+
         }
-        Pagos.MONTO = total;
-        labTotal.setText("El Monto Total es de: " + String.valueOf(total) + " Soles");
-        btnQuitar.setEnabled(false);
-
+//
+//        int indice, cuenta, total = 0;
+//        indice = concepSel.getSelectedIndex();
+//
+//        modeloS.remove(indice);
+//        modeloCS.remove(indice);
+//        cuenta = modeloCS.size();
+//        for (int j = 0; j < cuenta; j++) {
+//            total += Double.parseDouble((String) modeloCS.elementAt(j));
+//        }
+//        Pagos.MONTO = total;
+//        labTotal.setText("El Monto Total es de: " + String.valueOf(total) + " Soles");
+//        btnQuitar.setEnabled(false);
+//
     }
 
     public void buscar_existente() {
@@ -125,34 +179,35 @@ public class Pagos extends javax.swing.JFrame {
             String query;
             query = "CALL INSERT_COMPRO('" + txtNombre.getText() + "', '" + txtApellido.getText() + "',"
                     + " '" + dni + "', '" + txtDir.getText() + "', '" + txtTel.getText() + "', " + MONTO + "); ";
-            if (modeloCS.size() == 0) {
+            if (tb_conceptos.getRowCount() <= 0) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar un concepto");
             } else {
 
                 cont.ActualizarRegistro(query);
 
                 int i = 0;
-                while (i < modeloCS.size()) {
+                while (i < tb_conceptos.getRowCount()) {
 
-                    cont.ActualizarRegistro("CALL INSERT_DETALLE('" + modeloS.elementAt(i) + "')");
+                    cont.ActualizarRegistro("CALL INSERT_DETALLE('" +tb_conceptos.getValueAt(i, 0) + "', '"+tb_conceptos.getValueAt(i, 2) +"')");
                     i++;
                 }
 
                 JOptionPane.showMessageDialog(null, "!REGISTRO EXITOSO!");
                 String param = cont.DevolverRegistroDto("SELECT MAX(idcomprobante) FROM COMPROBANTE ", 1);
 
+                
                 Imprimir imp = new Imprimir();
-                imp.generar_reporte("prueba", "param", param);
+                imp.generar_reporte("comprobante", "idcomp", param);
                 limpiar();
 
             }
         }
 
     }
-
     public void llenarLista() {
-        cont.LlenarLista(modelo, "SELECT * FROM concepto", 2);
-        cont.LlenarLista(modeloc, "SELECT * FROM concepto", 3);
+        cont.LlenarCombo(cb_conceptos, "SELECT * FROM concepto", 2);
+        cont.LlenarCombo(cb_precios, "SELECT * FROM concepto", 3);
+
     }
 
     /**
@@ -181,18 +236,15 @@ public class Pagos extends javax.swing.JFrame {
         txtTel = new javax.swing.JTextField();
         dniLab = new javax.swing.JLabel();
         labPagos = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listConceptos = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        concepSel = new javax.swing.JList<>();
         btnAgregar = new javax.swing.JButton();
         btnQuitar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        costoSel = new javax.swing.JList<>();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        listCosto = new javax.swing.JList<>();
+        cb_conceptos = new javax.swing.JComboBox<>();
+        sp_cantidad = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tb_conceptos = new javax.swing.JTable();
+        cb_precios = new javax.swing.JComboBox<>();
         labMonto = new javax.swing.JPanel();
         labTotal = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
@@ -350,26 +402,10 @@ public class Pagos extends javax.swing.JFrame {
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         labPagos.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Conceptos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 18), new java.awt.Color(64, 71, 86))); // NOI18N
-
-        listConceptos.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        listConceptos.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listConceptosValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(listConceptos);
-
-        concepSel.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
-        concepSel.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                concepSelValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(concepSel);
 
         btnAgregar.setBackground(new java.awt.Color(0, 99, 174));
         btnAgregar.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -427,12 +463,34 @@ public class Pagos extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(64, 71, 86));
         jLabel6.setText("Conceptos a Pagar");
 
-        costoSel.setEnabled(false);
-        jScrollPane3.setViewportView(costoSel);
+        cb_conceptos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_conceptos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_conceptosActionPerformed(evt);
+            }
+        });
 
-        listCosto.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        listCosto.setEnabled(false);
-        jScrollPane4.setViewportView(listCosto);
+        sp_cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        tb_conceptos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tb_conceptos);
+
+        cb_precios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cb_precios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_preciosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout labPagosLayout = new javax.swing.GroupLayout(labPagos);
         labPagos.setLayout(labPagosLayout);
@@ -442,44 +500,48 @@ public class Pagos extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labPagosLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1))
-                .addGap(18, 30, Short.MAX_VALUE)
-                .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(btnQuitar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
+                        .addComponent(btnAgregar)
+                        .addGap(24, 24, 24)
+                        .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cb_precios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(labPagosLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                        .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cb_conceptos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sp_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32)
+                .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(labPagosLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addContainerGap())
+                    .addGroup(labPagosLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))))
         );
         labPagosLayout.setVerticalGroup(
             labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(labPagosLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6))
                 .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labPagosLayout.createSequentialGroup()
-                        .addGap(11, 11, 11)
+                        .addGap(19, 19, 19)
                         .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3)))
-                    .addGroup(labPagosLayout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cb_conceptos, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sp_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cb_precios, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(labPagosLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         labMonto.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Monto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 18), new java.awt.Color(64, 71, 86))); // NOI18N
@@ -652,8 +714,9 @@ public class Pagos extends javax.swing.JFrame {
                     .addComponent(labMonto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(labPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(labPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(29, 29, 29))
             .addComponent(labTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -662,40 +725,24 @@ public class Pagos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(labTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(labPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labPagos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labMonto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtApellidoActionPerformed
-
-    private void listConceptosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listConceptosValueChanged
-        int indice;
-
-        indice = listConceptos.getSelectedIndex();
-        listCosto.setSelectedIndex(indice);
-        btnAgregar.setEnabled(true);
-    }//GEN-LAST:event_listConceptosValueChanged
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         agregarConcepto();
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void concepSelValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_concepSelValueChanged
-        int indice;
-
-        indice = concepSel.getSelectedIndex();
-        costoSel.setSelectedIndex(indice);
-        btnQuitar.setEnabled(true);
-    }//GEN-LAST:event_concepSelValueChanged
 
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         eliminarConcepto();
@@ -715,7 +762,7 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
@@ -741,11 +788,11 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDniKeyTyped
 
     private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtDniActionPerformed
 
     private void txtDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtDirActionPerformed
 
     private void txtTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelActionPerformed
@@ -753,23 +800,23 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelActionPerformed
 
     private void btnAgregarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_btnAgregarFocusGained
-      
+
     }//GEN-LAST:event_btnAgregarFocusGained
 
     private void btnAgregarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseReleased
-        
+
     }//GEN-LAST:event_btnAgregarMouseReleased
 
     private void btnAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseEntered
-         this.btnAgregar.setBackground(new Color(63, 128, 207));
+        this.btnAgregar.setBackground(new Color(63, 128, 207));
     }//GEN-LAST:event_btnAgregarMouseEntered
 
     private void btnAgregarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseExited
-       this.btnAgregar.setBackground(new Color(0,99,174));
+        this.btnAgregar.setBackground(new Color(0, 99, 174));
     }//GEN-LAST:event_btnAgregarMouseExited
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       this.setExtendedState(ICONIFIED);
+        this.setExtendedState(ICONIFIED);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -777,11 +824,11 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnQuitarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitarMouseEntered
-       this.btnQuitar.setBackground(new Color(182,45,35));
+        this.btnQuitar.setBackground(new Color(182, 45, 35));
     }//GEN-LAST:event_btnQuitarMouseEntered
 
     private void btnQuitarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnQuitarMouseExited
-        this.btnQuitar.setBackground(new Color(219,79,72));
+        this.btnQuitar.setBackground(new Color(219, 79, 72));
     }//GEN-LAST:event_btnQuitarMouseExited
 
     private void btnAceptarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseEntered
@@ -789,20 +836,28 @@ public class Pagos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarMouseEntered
 
     private void btnAceptarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAceptarMouseExited
-       this.btnAceptar.setBackground(new Color(0,99,174));
+        this.btnAceptar.setBackground(new Color(0, 99, 174));
     }//GEN-LAST:event_btnAceptarMouseExited
 
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
-       this.btnCancelar.setBackground(new Color(182,45,35));
+        this.btnCancelar.setBackground(new Color(182, 45, 35));
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-        this.btnCancelar.setBackground(new Color(219,79,72));
+        this.btnCancelar.setBackground(new Color(219, 79, 72));
     }//GEN-LAST:event_btnCancelarMouseExited
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-       limpiar();
+        limpiar();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void cb_conceptosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_conceptosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_conceptosActionPerformed
+
+    private void cb_preciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_preciosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cb_preciosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -845,8 +900,8 @@ public class Pagos extends javax.swing.JFrame {
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnQuitar;
-    private javax.swing.JList<String> concepSel;
-    private javax.swing.JList<String> costoSel;
+    private javax.swing.JComboBox<String> cb_conceptos;
+    private javax.swing.JComboBox<String> cb_precios;
     private javax.swing.JLabel dniLab;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -862,18 +917,15 @@ public class Pagos extends javax.swing.JFrame {
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPanel labDatos;
     private javax.swing.JPanel labMonto;
     private javax.swing.JPanel labPagos;
     private javax.swing.JPanel labTitulo;
     private javax.swing.JLabel labTotal;
-    private javax.swing.JList<String> listConceptos;
-    private javax.swing.JList<String> listCosto;
     private java.awt.PopupMenu popupMenu1;
     private java.awt.PopupMenu popupMenu2;
+    private javax.swing.JSpinner sp_cantidad;
+    private javax.swing.JTable tb_conceptos;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDir;
     private javax.swing.JTextField txtDni;

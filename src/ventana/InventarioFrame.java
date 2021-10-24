@@ -501,6 +501,11 @@ public class InventarioFrame extends javax.swing.JFrame {
         categoria_c.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
 
         estado_c.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
+        estado_c.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                estado_cActionPerformed(evt);
+            }
+        });
 
         agregar.setBackground(new java.awt.Color(0, 99, 174));
         agregar.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
@@ -1000,6 +1005,10 @@ public class InventarioFrame extends javax.swing.JFrame {
         new Principal().setVisible(true);
         dispose();
     }//GEN-LAST:event_btnBackActionPerformed
+
+    private void estado_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estado_cActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_estado_cActionPerformed
 
     /**
      * @param args the command line arguments

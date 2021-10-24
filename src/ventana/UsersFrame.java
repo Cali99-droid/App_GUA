@@ -14,6 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -253,6 +254,16 @@ public class UsersFrame extends javax.swing.JFrame {
         jLabel4.setText("Telefono");
 
         txtNombre.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         txtApellido.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtApellido.addActionListener(new java.awt.event.ActionListener() {
@@ -260,21 +271,54 @@ public class UsersFrame extends javax.swing.JFrame {
                 txtApellidoActionPerformed(evt);
             }
         });
+        txtApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellidoKeyTyped(evt);
+            }
+        });
 
         txtDir.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtDir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDirActionPerformed(evt);
+            }
+        });
+        txtDir.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDirKeyTyped(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(64, 71, 86));
         jLabel13.setText("Buscar DNI: ");
 
         txtDni.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDniActionPerformed(evt);
+            }
+        });
         txtDni.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtDniKeyReleased(evt);
             }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtDniKeyTyped(evt);
+            }
         });
 
         txtTel.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtTel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelActionPerformed(evt);
+            }
+        });
+        txtTel.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelKeyTyped(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(64, 71, 86));
@@ -289,8 +333,19 @@ public class UsersFrame extends javax.swing.JFrame {
         jLabel8.setText("Rol");
 
         txtUser.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUserActionPerformed(evt);
+            }
+        });
 
         cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMINISTRADOR", "PERSONAL", "DIRECTOR", " " }));
+
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
 
         dniLab.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
@@ -613,7 +668,7 @@ public class UsersFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
+         ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtApellidoActionPerformed
 
     private void txtDniKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyReleased
@@ -675,6 +730,52 @@ public class UsersFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No hay datos para exportar", "Mensaje de error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_exActionPerformed
+
+    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
+        ((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtDniActionPerformed
+
+    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
+         ((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtNombreActionPerformed
+
+    private void txtDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDirActionPerformed
+        ((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtDirActionPerformed
+
+    private void txtTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelActionPerformed
+        ((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtTelActionPerformed
+
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
+        ((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtUserActionPerformed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+((JComponent) evt.getSource()).transferFocus();
+    }//GEN-LAST:event_txtPassActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        Controlador.soloLetras(evt);
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void txtApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidoKeyTyped
+         Controlador.soloLetras(evt);
+    }//GEN-LAST:event_txtApellidoKeyTyped
+
+    private void txtDirKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDirKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDirKeyTyped
+
+    private void txtTelKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelKeyTyped
+        Controlador.soloNumeros(evt);
+        Controlador.aplicarLongitudTelf(txtTel, evt);
+    }//GEN-LAST:event_txtTelKeyTyped
+
+    private void txtDniKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDniKeyTyped
+         Controlador.soloNumeros(evt);
+         Controlador.aplicarLongitudDNI(txtDni, evt);
+    }//GEN-LAST:event_txtDniKeyTyped
 
     /**
      * @param args the command line arguments

@@ -67,7 +67,7 @@ public class Inventario {
                int cant = Integer.parseInt(Base.rt.getString(1));
                
                if(cant >= 2){
-                   b=true;
+                   b=false;
                }
             }
         } catch (SQLException ex) {
