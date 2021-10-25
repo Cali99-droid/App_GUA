@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class User {
 
+    public static String sesion;
     private int idusuario;
     private int idpersona;
 
@@ -81,6 +82,7 @@ public class User {
                         Base.rt.getString(10)
                 );
                 users.add(usr);
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -91,16 +93,15 @@ public class User {
 
     public User find(String dni) {
 
-    ArrayList<User> userss = User.All();
+        ArrayList<User> userss = User.All();
 
         User us = new User();
         for (int i = 0; i < userss.size(); i++) {
-          //  System.out.println(userss.get(i).getDni());
+            //  System.out.println(userss.get(i).getDni());
             if (userss.get(i).getDni().equals(dni)) {
-                
+
                 us = userss.get(i);
-               
-                
+
             }
         }
 
@@ -110,12 +111,11 @@ public class User {
 
     public boolean agregarPersona() {
         boolean b = true;
-     
+
         User us = find(this.dni);
-        
 
         if (us.getNombre() == null) {
- 
+
             //  System.out.println("no esxite por lo tanto buscare en la tabla de personas " + us.getNombre() + " " + this.dni); 
             Map<String, String> datos = cont.getData(this.dni);
             if (datos.isEmpty()) {
@@ -214,15 +214,13 @@ public class User {
         }
 
     }
-    
-    
-    public static void eliminar(int id){
-        
-        
+
+    public static void eliminar(int id) {
+
         String query = "DELETE FROM Usuario WHERE idusuario = ?";
         try {
             PreparedStatement st = Conexion.conec.prepareStatement(query);
-   
+
             st.setInt(1, id);
 
             if (st.executeUpdate() == 1) {
@@ -233,10 +231,7 @@ public class User {
             ex.printStackTrace();
         }
 
-        
     }
-    
-
 
     public int getIdusuario() {
         return idusuario;

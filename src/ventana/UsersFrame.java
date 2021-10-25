@@ -124,7 +124,32 @@ public class UsersFrame extends javax.swing.JFrame {
         }
 
     }
+public boolean verificar (){
+    String pass = txtPass.getText();
+        boolean session = false;
 
+        String sql = "SELECT idusuario FROM usuario WHERE  pass = md5('" + pass + "')";
+
+        int id = cont.traerId(sql);
+ 
+        ArrayList<User> users = User.All();
+        for (User us : users) {
+            if (us.getIdusuario() == id) { 
+                User.sesion = us.getRol();
+                session = true;
+                Principal prin = new Principal();
+                prin.setVisible(true);
+                dispose();
+            }
+        }
+        
+//        if(!session){
+//            JOptionPane.showMessageDialog(null, "Credenciales Incorrectas");
+//          
+//            txtPass.setText("");
+//        }
+        return session;
+}
     public void actualizarUser() {
 
         if (tableUsers.getSelectedRow() > -1) {
@@ -132,6 +157,7 @@ public class UsersFrame extends javax.swing.JFrame {
             if (validarCampos() || cbRol.getSelectedIndex() < 1) {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos");
             } else {
+                if(verificar()){
                 int fila = tableUsers.getSelectedRow();
                 ArrayList<User> userss = User.All();
 
@@ -147,7 +173,7 @@ public class UsersFrame extends javax.swing.JFrame {
                 us.setDireccion(txtDir.getText());
                 us.setTelefono(txtTel.getText());
                 us.setUsuario(txtUser.getText());
-                us.setPass(txtPass.getText());
+                us.setPass(nueva_pass.getText());
                 us.setRol(cbRol.getSelectedItem().toString());
 
                 us.actualizarPers();
@@ -157,6 +183,9 @@ public class UsersFrame extends javax.swing.JFrame {
                 listarUsers();
                 JOptionPane.showMessageDialog(null, "Actualizado con Éxito");
                 limpiar();
+                }else{
+                    JOptionPane.showMessageDialog(null, "Contraseña Incorrecta");
+                }
             }
 
         } else {
@@ -216,12 +245,14 @@ public class UsersFrame extends javax.swing.JFrame {
         cbRol = new javax.swing.JComboBox<>();
         txtPass = new javax.swing.JPasswordField();
         dniLab = new javax.swing.JLabel();
+        nueva_pass = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableUsers = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_act = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         ex = new javax.swing.JButton();
         labTitulo = new javax.swing.JPanel();
@@ -237,19 +268,19 @@ public class UsersFrame extends javax.swing.JFrame {
         labDatos.setBackground(new java.awt.Color(255, 255, 255));
         labDatos.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Usuarios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Raleway", 1, 18), new java.awt.Color(64, 71, 86))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(64, 71, 86));
         jLabel2.setText("Nombres");
 
-        jLabel5.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(64, 71, 86));
         jLabel5.setText("Apellidos.");
 
-        jLabel3.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(64, 71, 86));
         jLabel3.setText("Dirección");
 
-        jLabel4.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(64, 71, 86));
         jLabel4.setText("Telefono");
 
@@ -289,7 +320,7 @@ public class UsersFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel13.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(64, 71, 86));
         jLabel13.setText("Buscar DNI: ");
 
@@ -320,15 +351,15 @@ public class UsersFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(64, 71, 86));
-        jLabel6.setText("Contraseña");
+        jLabel6.setText("Contraseña anterior");
 
-        jLabel7.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(64, 71, 86));
         jLabel7.setText("Usuario");
 
-        jLabel8.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(64, 71, 86));
         jLabel8.setText("Rol");
 
@@ -339,7 +370,7 @@ public class UsersFrame extends javax.swing.JFrame {
             }
         });
 
-        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMINISTRADOR", "PERSONAL", "DIRECTOR", " " }));
+        cbRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--SELECCIONE--", "ADMINISTRADOR", "PERSONAL", "DIRECTOR" }));
 
         txtPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,6 +380,9 @@ public class UsersFrame extends javax.swing.JFrame {
 
         dniLab.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
+        jLabel1.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
+        jLabel1.setText("Contraseña Nueva");
+
         javax.swing.GroupLayout labDatosLayout = new javax.swing.GroupLayout(labDatos);
         labDatos.setLayout(labDatosLayout);
         labDatosLayout.setHorizontalGroup(
@@ -357,35 +391,41 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labDatosLayout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addGap(6, 6, 6)
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dniLab, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(labDatosLayout.createSequentialGroup()
                         .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel2)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addGap(11, 11, 11)
-                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtDir, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                                .addComponent(txtApellido)
-                                .addComponent(txtNombre)
-                                .addComponent(txtTel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cbRol, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(txtPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)))
-                        .addGap(0, 2, Short.MAX_VALUE))
-                    .addGroup(labDatosLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel6))
                         .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(labDatosLayout.createSequentialGroup()
-                                .addComponent(dniLab)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtDni))))
-                .addContainerGap())
+                                .addGap(12, 12, 12)
+                                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtDir, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(labDatosLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jLabel8)
+                    .addGroup(labDatosLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(nueva_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(labDatosLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(80, 80, 80)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         labDatosLayout.setVerticalGroup(
             labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -393,43 +433,50 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dniLab)
-                .addGap(20, 20, 20)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(28, 28, 28)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(11, 11, 11)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addGroup(labDatosLayout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(2, 2, 2)
+                .addComponent(dniLab, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labDatosLayout.createSequentialGroup()
-                        .addGap(0, 7, Short.MAX_VALUE)
-                        .addComponent(jLabel8))
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(labDatosLayout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel3)
+                                .addGap(11, 11, 11))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, labDatosLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(labDatosLayout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(jLabel4))
+                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addComponent(nueva_pass))
                     .addGroup(labDatosLayout.createSequentialGroup()
-                        .addComponent(cbRol)
-                        .addGap(1, 1, 1)))
-                .addGap(15, 15, 15))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)))
+                .addGap(4360, 4360, 4360)
+                .addGroup(labDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbRol, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -466,15 +513,15 @@ public class UsersFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(217, 162, 27));
-        jButton2.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Actualizar");
-        jButton2.setBorderPainted(false);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_act.setBackground(new java.awt.Color(217, 162, 27));
+        btn_act.setFont(new java.awt.Font("Raleway", 1, 12)); // NOI18N
+        btn_act.setForeground(new java.awt.Color(255, 255, 255));
+        btn_act.setText("Actualizar");
+        btn_act.setBorderPainted(false);
+        btn_act.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btn_act.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_actActionPerformed(evt);
             }
         });
 
@@ -497,7 +544,7 @@ public class UsersFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_act, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -511,7 +558,7 @@ public class UsersFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btn_act, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         ex.setBackground(new java.awt.Color(0, 99, 174));
@@ -549,8 +596,8 @@ public class UsersFrame extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(ex)
                 .addGap(19, 19, 19))
         );
@@ -657,11 +704,11 @@ public class UsersFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(labTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(labDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -696,9 +743,9 @@ public class UsersFrame extends javax.swing.JFrame {
         agregarUser();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_actActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actActionPerformed
         actualizarUser();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_actActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         eliminar();
@@ -814,14 +861,15 @@ public class UsersFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btn_act;
     private javax.swing.JComboBox<String> cbRol;
     private javax.swing.JLabel dniLab;
     private javax.swing.JButton ex;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -837,6 +885,7 @@ public class UsersFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel labDatos;
     private javax.swing.JPanel labTitulo;
+    private javax.swing.JPasswordField nueva_pass;
     private javax.swing.JTable tableUsers;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDir;

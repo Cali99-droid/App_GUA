@@ -69,6 +69,27 @@ public class Imprimir {
         }
 
     }
+    
+    public void generar_reporte_dos(String NRpt, String prm1,String prm2, String vlr1, String vlr2) {
+
+        Map parame = new HashMap();
+        rta = System.getProperties().getProperty("user.dir") + "/src/reportes/" + NRpt
+                + ".jasper";
+        parame.put(prm1, vlr1);
+         parame.put(prm2, vlr2);
+        //System.out.println(rta);
+        try {
+            JasperPrint impri = JasperFillManager
+                    .fillReport(rta, parame, cconn.conec);
+            JasperViewer jasperViewer = new JasperViewer(impri, false);
+            jasperViewer.setVisible(true);
+            jasperViewer.setExtendedState(Frame.MAXIMIZED_BOTH);
+           // System.out.println("finalizo muestra");
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 
     public void ImpresioLosticketts(String para1, String vlrpar1, String para2, String vlrpar2,
             String para3, String vlrpar3, String para4, String vlrpar4, String para5, String vlrpar5, String para6,
@@ -317,6 +338,7 @@ public class Imprimir {
                 JOptionPane.showMessageDialog(null, "No hay datos");
             }
         } catch (Exception E) {
+            E.printStackTrace();
         }
     }
 

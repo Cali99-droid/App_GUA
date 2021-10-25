@@ -70,13 +70,19 @@ public class Pagos extends javax.swing.JFrame {
         txtDni.setText("");
         txtNombre.setText("");
         txtTel.setText("");
-
+        cont.LimTabla(modelo);
+        
         dniLab.setText("");
     }
 
     public void agregarConcepto() {
-        String concepto;
+        
+        String concepto ;
         int index = cb_conceptos.getSelectedIndex();
+        
+        if(index < 1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un concepto");
+        }else{
         concepto = (String) cb_conceptos.getSelectedItem();
         int cantidad = Integer.parseInt(sp_cantidad.getValue().toString());
         cb_precios.setSelectedIndex(index);
@@ -94,7 +100,7 @@ public class Pagos extends javax.swing.JFrame {
         //Sección 4
         modelo.addRow(fila);
         totalizar();
-        
+    }
 
 //        costo = (String) listCosto.getSelectedValue();
 //        modeloS.addElement(concepto);
@@ -500,16 +506,17 @@ public class Pagos extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labPagosLayout.createSequentialGroup()
-                        .addComponent(btnAgregar)
-                        .addGap(24, 24, 24)
-                        .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cb_precios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(labPagosLayout.createSequentialGroup()
                         .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cb_conceptos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sp_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(sp_cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(labPagosLayout.createSequentialGroup()
+                        .addComponent(btnAgregar)
+                        .addGap(24, 24, 24)
+                        .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cb_precios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(32, 32, 32)
                 .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(labPagosLayout.createSequentialGroup()
@@ -536,12 +543,12 @@ public class Pagos extends javax.swing.JFrame {
                         .addGroup(labPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnQuitar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cb_precios, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(labPagosLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         labMonto.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Monto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("SansSerif", 1, 18), new java.awt.Color(64, 71, 86))); // NOI18N

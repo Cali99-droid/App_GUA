@@ -10,25 +10,20 @@ import javax.swing.JOptionPane;
  *
  * @author CARLOS ORELLANO
  */
-
-
 public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-
     ArrayList<Articulo> ar = Articulo.mapear();
-    
-    
-   Controlador cont = new Controlador();
-    
+
+    Controlador cont = new Controlador();
+
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(new Color(16,174,255));
+        this.getContentPane().setBackground(new Color(16, 174, 255));
         this.txtUsuario.requestFocus();
-
 
 //        loginPan.setBackground(new Color(20, 164, 247));
 //        this.btnAcceder.setBackground(new Color(0, 117, 52));
@@ -36,24 +31,33 @@ public class Login extends javax.swing.JFrame {
 //        this.btnSalir.setBackground(new Color(182, 45, 35));
 //        this.btnSalir.setForeground(Color.white);       
     }
-    
-    
-    public void Acceder(){
-        
+
+    public void Acceder() {
         String user = txtUsuario.getText();
         String pass = txtPass.getText();
+        boolean session = false;
+
+        String sql = "SELECT idusuario FROM usuario WHERE usuario = '" + user.trim() + "' and pass = md5('" + pass + "')";
+
+        int id = cont.traerId(sql);
+ 
+        ArrayList<User> users = User.All();
+        for (User us : users) {
+            if (us.getIdusuario() == id) { 
+                User.sesion = us.getRol();
+                session = true;
+                Principal prin = new Principal();
+                prin.setVisible(true);
+                dispose();
+            }
+        }
         
-        String sql = "SELECT * FROM usuario WHERE usuario = '"+user.trim()+"' and pass = md5('"+pass+"')";
-        
-       if(cont.Verificarconsulta(sql)){
-          Principal prin = new Principal();
-          prin.setVisible(true);
-          dispose();
-           
-       }else{
-           JOptionPane.showMessageDialog(null, "Credenciales Incorrectas !!");
-       }
-        
+        if(!session){
+            JOptionPane.showMessageDialog(null, "Credenciales Incorrectas");
+            txtUsuario.setText("");
+            txtPass.setText("");
+        }
+
     }
 
     /**
@@ -267,11 +271,11 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
     private void btnAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccederActionPerformed
-       Acceder();
+        Acceder();
     }//GEN-LAST:event_btnAccederActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -283,7 +287,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
-         ((JComponent) evt.getSource()).transferFocus();
+        ((JComponent) evt.getSource()).transferFocus();
     }//GEN-LAST:event_txtPassActionPerformed
 
     /**

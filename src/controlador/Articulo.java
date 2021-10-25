@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 public class Articulo {
     
     // Atributos
+    private String codigo;
     private int idinventario;
     private  int idArticulo;
     private  String nombre;
@@ -36,7 +37,8 @@ public class Articulo {
     int idEstado;
     int idCategoria;
 
-    public Articulo(int idArticulo, String nombre, String descripcion, String area, String estado,String categoria, int idArea, int idEstado, int idCategoria) {
+    public Articulo(int idArticulo, String codigo, String nombre, String descripcion, String area, String estado,String categoria, int idArea, int idEstado, int idCategoria) {
+        this.codigo = codigo;
         this.idArticulo = idArticulo;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -97,9 +99,10 @@ public class Articulo {
                         Base.rt.getString(4), 
                         Base.rt.getString(5), 
                         Base.rt.getString(6),
-                        Integer.parseInt(Base.rt.getString(7)),
+                        Base.rt.getString(7),
                         Integer.parseInt(Base.rt.getString(8)),
-                        Integer.parseInt(Base.rt.getString(9)));
+                        Integer.parseInt(Base.rt.getString(9)),
+                        Integer.parseInt(Base.rt.getString(10)));
                 articulos.add(art);
             }
         } catch (SQLException ex) {
@@ -108,6 +111,14 @@ public class Articulo {
         return articulos;
 
     }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
     
      /**
      * Este es el metodo que trae todos los articulos
@@ -115,7 +126,7 @@ public class Articulo {
      */
     public boolean agregarArticulo(){
         boolean b = false;
-        String query = "INSERT INTO articulo VALUES( null,?, ?, CURDATE(), ?, ?, ?)";
+        String query = "CALL INSERTAR_ARTICULO(?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = Conexion.conec.prepareStatement(query);
             st.setString(1, this.nombre);

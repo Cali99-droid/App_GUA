@@ -5,7 +5,9 @@
  */
 package ventana;
 
+import controlador.Conexion;
 import controlador.Controlador;
+import controlador.User;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,10 +30,13 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         this.setLocationRelativeTo(null);
+      
        //
       // this.setExtendedState(MAXIMIZED_BOTH);
         this.getContentPane().setBackground(new Color(255, 255, 255));
         this.prinPan.setBackground(new Color(255, 255, 255));
+        verificarPrivilegios();
+        this.lab_us.setText(User.sesion);
 
        
 
@@ -41,6 +46,15 @@ public class Principal extends javax.swing.JFrame {
 //        Controlador.darEstiloBoton(this.btnInven, iconInven, new Color(163, 214, 255));
         //Controlador.darEstiloBoton(this.btnPagos, iconPagos, new Color(163, 214, 255));
 
+    }
+    public void verificarPrivilegios(){
+        if(User.sesion.equals("ADMINISTRADOR")){
+            btnUser.setEnabled(true);
+            btnConfig.setEnabled(true);
+        }else{
+            btnUser.setEnabled(false);
+            btnConfig.setEnabled(false);
+        }
     }
 
     /**
@@ -57,6 +71,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        lab_us = new javax.swing.JLabel();
         prinPan = new javax.swing.JPanel();
         btnPagos = new javax.swing.JButton();
         btnInven = new javax.swing.JButton();
@@ -118,6 +133,10 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        lab_us.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
+        lab_us.setForeground(new java.awt.Color(255, 255, 255));
+        lab_us.setText("jLabel1");
+
         javax.swing.GroupLayout labTitulo1Layout = new javax.swing.GroupLayout(labTitulo1);
         labTitulo1.setLayout(labTitulo1Layout);
         labTitulo1Layout.setHorizontalGroup(
@@ -127,6 +146,9 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(327, Short.MAX_VALUE)
                 .addComponent(jLabel13)
                 .addGap(342, 342, 342))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, labTitulo1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lab_us, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         labTitulo1Layout.setVerticalGroup(
             labTitulo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +156,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel13)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lab_us, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
         );
 
         btnPagos.setBackground(new java.awt.Color(255, 255, 255));
@@ -385,6 +408,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel labTitulo1;
+    private javax.swing.JLabel lab_us;
     private javax.swing.JPanel prinPan;
     // End of variables declaration//GEN-END:variables
 }

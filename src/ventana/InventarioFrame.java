@@ -4,6 +4,7 @@ import Clases.Exporter;
 import controlador.Articulo;
 import controlador.Controlador;
 import controlador.Inventario;
+import controlador.User;
 import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -64,11 +65,11 @@ public class InventarioFrame extends javax.swing.JFrame {
         confirmar.setVisible(false);
         nomInventario.setEnabled(false);
         ta_obser.setEnabled(false);
-        initBotones(1);
+       // initBotones(1);
 //        actualizar.setEnabled(false);
 //        delete.setEnabled(false);
         //crear columnas de modelo
-        modelo.setColumnIdentifiers(new String[]{"ID", "Nombre", "Descripcion", "Area", "Estado", "Categoria"});
+        modelo.setColumnIdentifiers(new String[]{"ID", "Codigo","Nombre", "Descripcion", "Area", "Estado", "Categoria"});
 
         //agregar oyente para el textfield buscar
         buscar.addKeyListener(new KeyAdapter() {
@@ -97,6 +98,16 @@ public class InventarioFrame extends javax.swing.JFrame {
 
     }
 
+    public void verificarPrivilegios() {
+        if (User.sesion.equals("ADMINISTRADOR")) {
+            actualizar.setEnabled(true);
+            delete.setEnabled(true);
+        } else {
+            actualizar.setEnabled(false);
+            delete.setEnabled(false);
+        }
+    }
+
     public void llenar_combo_inv() {
         this.c_inventarios.removeAllItems();
         this.c_inventarios.addItem("--Todos--");
@@ -106,9 +117,10 @@ public class InventarioFrame extends javax.swing.JFrame {
 
         //c_inventarios.setSelectedIndex(-1);
     }
-/**
- * este metodo llena la tabla
- */
+
+    /**
+     * este metodo llena la tabla
+     */
     public void imprimirArticulos() {
 
         int index = this.c_inventarios.getSelectedIndex();
@@ -137,11 +149,12 @@ public class InventarioFrame extends javax.swing.JFrame {
             modelo.addRow(O);
             Articulo getAr = articulos.get(i);
             modelo.setValueAt(getAr.getIdArticulo(), i, 0);
-            modelo.setValueAt(getAr.getNombre().toUpperCase(), i, 1);
-            modelo.setValueAt(getAr.getDescripcion().toUpperCase(), i, 2);
-            modelo.setValueAt(getAr.getArea().toUpperCase(), i, 3);
-            modelo.setValueAt(getAr.getEstado().toUpperCase(), i, 4);
-            modelo.setValueAt(getAr.getCategoria().toUpperCase(), i, 5);
+              modelo.setValueAt(getAr.getCodigo(), i, 1);
+            modelo.setValueAt(getAr.getNombre().toUpperCase(), i, 2);
+            modelo.setValueAt(getAr.getDescripcion().toUpperCase(), i, 3);
+            modelo.setValueAt(getAr.getArea().toUpperCase(), i, 4);
+            modelo.setValueAt(getAr.getEstado().toUpperCase(), i, 5);
+            modelo.setValueAt(getAr.getCategoria().toUpperCase(), i, 6);
         }
         this.t_articulos.setModel(modelo);
     }
@@ -237,9 +250,9 @@ public class InventarioFrame extends javax.swing.JFrame {
         this.descripcion.setEditable(true);
         this.categoria_c.setEditable(true);
         inventarios = Inventario.all();
-         llenar_combo_inv();
-         articulos = Articulo.mapear();
-         listarArticulos();
+        llenar_combo_inv();
+        articulos = Articulo.mapear();
+        listarArticulos();
 
     }
 
@@ -289,12 +302,12 @@ public class InventarioFrame extends javax.swing.JFrame {
             this.articulos = Articulo.mapear();
             limpiar();
             listarArticulos();
-            String nombre = JOptionPane.showInputDialog(this, "Ingrese el Nombre del Inventario: " + LocalDate.now(), "Entrada", 3);
+            String nombre = "Inventario en: "+ LocalDate.now();
             if (nombre == null || nombre.equals("")) {
                 JOptionPane.showMessageDialog(this, "Debe asignar un nombre al inventario !!", "Mensaje", 2);
             } else {
-                initBotones(2);
-                nomInventario.setText(nombre.toUpperCase() + " - " + LocalDate.now().getYear());
+                //initBotones(2);
+                nomInventario.setText(nombre.toUpperCase());
                 lbCabecera.setText("Modo Inventario Activado");
                 this.nombre.setEditable(false);
                 this.descripcion.setEditable(false);
@@ -327,7 +340,7 @@ public class InventarioFrame extends javax.swing.JFrame {
         inve.setArticulos(this.articulos);
 
         inve.insertInvenArt();
-        
+
         volverEstado();
         limpiar();
 
@@ -874,10 +887,10 @@ public class InventarioFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1243, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(17, Short.MAX_VALUE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PnCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -919,8 +932,8 @@ public class InventarioFrame extends javax.swing.JFrame {
                 pre_actualizar();
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_actualizarActionPerformed
 
     private void jScrollPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MouseClicked

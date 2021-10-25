@@ -178,6 +178,18 @@ public class Controlador {
         return bd;
     }
 
+     public int traerId(String sql) {
+        int id = 0;
+        try {
+            Base.st = Base.conec.createStatement();
+            Base.rt = Base.st.executeQuery(sql);
+             while (Base.rt.next()) {
+            id =  Integer.parseInt(Base.rt.getString(1));
+             }
+        } catch (Exception e) {
+        }
+        return id;
+    }
     public void ActualizarRegistro(String sq) {
         try {
             Base.st = Base.conec.createStatement();
